@@ -8,24 +8,21 @@ from app.routers.expense import router as expense_router
 
 app = FastAPI(
     title="Expense Manager API",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
 # ============================================================
-# CORS CONFIGURATION
+# CORS
 # ============================================================
-
-origins = [
-    "https://expense-manager-frontend-z438.onrender.com",
-    "http://localhost:5173",
-    "http://localhost:3000",
-]
-
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "https://expense-manager-frontend-z438.onrender.com",
+        "http://localhost:3000",
+        "http://localhost:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,16 +30,7 @@ app.add_middleware(
 
 
 # ============================================================
-# ROUTERS
-# ============================================================
-
-app.include_router(user_router)
-app.include_router(auth_router)
-app.include_router(expense_router)
-
-
-# ============================================================
-# ROOT
+# ROOT / HEALTH
 # ============================================================
 
 @app.get("/")
@@ -50,3 +38,42 @@ def root():
     return {
         "message": "Expense Manager API is running"
     }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+
+
+# ============================================================
+# USER ROUTES
+# ============================================================
+
+app.include_router(
+    user_router,
+    prefix="/users",
+    tags=["Users"],
+)
+
+
+# ============================================================
+# AUTH ROUTES
+# ============================================================
+
+app.include_router(
+    auth_router,
+    tags=["Authentication"],
+)
+
+
+# ============================================================
+# EXPENSE ROUTES
+# ============================================================
+
+app.include_router(
+    expense_router,
+    prefix="/expenses",
+    tags=["Expenses"],
+)

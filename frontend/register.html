@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,9 +10,10 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Expense Manager - Login</title>
+    <title>Expense Manager - Register</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -38,7 +40,8 @@
 
             border-radius: 10px;
 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -110,45 +113,69 @@
             line-height: 1.5;
         }
 
-        .error {
-            color: red;
-        }
-
         .success {
             color: green;
+        }
+
+        .error {
+            color: red;
         }
 
         .info {
             color: #4f46e5;
         }
 
-        .register-link {
+        .login-link {
             text-align: center;
             margin-top: 20px;
             color: #666;
         }
 
-        .register-link a {
+        .login-link a {
             color: #4f46e5;
             font-weight: 600;
             text-decoration: none;
         }
+
     </style>
+
 </head>
 
 
 <body>
 
+
 <div class="container">
 
-    <h1>Expense Manager</h1>
+    <h1>
+        Expense Manager
+    </h1>
+
 
     <p class="subtitle">
-        Login to manage your expenses
+        Create your Expense Manager account
     </p>
 
 
-    <form id="loginForm">
+    <form id="registerForm">
+
+
+        <div class="form-group">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                minlength="3"
+                required
+            >
+
+        </div>
+
 
         <div class="form-group">
 
@@ -159,7 +186,7 @@
             <input
                 type="email"
                 id="email"
-                placeholder="Enter your email"
+                placeholder="Enter email"
                 required
             >
 
@@ -175,7 +202,8 @@
             <input
                 type="password"
                 id="password"
-                placeholder="Enter your password"
+                placeholder="Enter password"
+                minlength="6"
                 required
             >
 
@@ -184,10 +212,11 @@
 
         <button
             type="submit"
-            id="loginButton"
+            id="registerButton"
         >
-            Login
+            Register
         </button>
+
 
     </form>
 
@@ -195,12 +224,12 @@
     <div id="message"></div>
 
 
-    <div class="register-link">
+    <div class="login-link">
 
-        Don't have an account?
+        Already have an account?
 
-        <a href="index.html">
-            Register
+        <a href="login.html">
+            Login
         </a>
 
     </div>
@@ -210,24 +239,38 @@
 
 <script>
 
+
 const API_URL =
     "https://expense-manager-api-lpdf.onrender.com";
 
 
-const loginForm =
-    document.getElementById("loginForm");
+const registerForm =
+    document.getElementById(
+        "registerForm"
+    );
 
-const loginButton =
-    document.getElementById("loginButton");
+
+const registerButton =
+    document.getElementById(
+        "registerButton"
+    );
+
 
 const message =
-    document.getElementById("message");
+    document.getElementById(
+        "message"
+    );
 
 
 function wait(ms) {
 
     return new Promise(resolve => {
-        setTimeout(resolve, ms);
+
+        setTimeout(
+            resolve,
+            ms
+        );
+
     });
 
 }
@@ -258,8 +301,8 @@ async function wakeBackend() {
 }
 
 
-async function loginRequest(
-    formData,
+async function registerRequest(
+    options,
     retries = 3
 ) {
 
@@ -276,22 +319,8 @@ async function loginRequest(
 
             const response =
                 await fetch(
-                    `${API_URL}/token`,
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded",
-
-                            "Accept":
-                                "application/json"
-                        },
-
-                        body: formData,
-
-                        cache: "no-store"
-                    }
+                    `${API_URL}/users/`,
+                    options
                 );
 
 
@@ -307,7 +336,8 @@ async function loginRequest(
                 message.textContent =
                     `Connecting to server... ${attempt}/${retries}`;
 
-                message.className = "info";
+                message.className =
+                    "info";
 
 
                 await wait(5000);
@@ -320,11 +350,18 @@ async function loginRequest(
 }
 
 
-loginForm.addEventListener(
+registerForm.addEventListener(
     "submit",
     async function(event) {
 
         event.preventDefault();
+
+
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
 
 
         const email =
@@ -347,10 +384,12 @@ loginForm.addEventListener(
             "info";
 
 
-        loginButton.disabled = true;
+        registerButton.disabled =
+            true;
 
-        loginButton.textContent =
-            "Logging in...";
+
+        registerButton.textContent =
+            "Registering...";
 
 
         try {
@@ -361,26 +400,34 @@ loginForm.addEventListener(
             await wait(1500);
 
 
-            const formData =
-                new URLSearchParams();
-
-
-            // FastAPI OAuth2PasswordRequestForm
-            formData.append(
-                "username",
-                email
-            );
-
-
-            formData.append(
-                "password",
-                password
-            );
-
-
             const response =
-                await loginRequest(
-                    formData,
+                await registerRequest(
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            username:
+                                username,
+
+                            email:
+                                email,
+
+                            password:
+                                password
+
+                        }),
+
+                        cache: "no-store"
+                    },
                     3
                 );
 
@@ -391,51 +438,26 @@ loginForm.addEventListener(
 
             if (response.ok) {
 
-                localStorage.setItem(
-                    "access_token",
-                    data.access_token
-                );
-
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify({
-                        username: email
-                    })
-                );
-
-
                 message.textContent =
-                    "Login successful!";
-
+                    "Registration successful! Redirecting to login...";
 
                 message.className =
                     "success";
+
+
+                registerForm.reset();
 
 
                 setTimeout(
                     function() {
 
                         window.location.href =
-                            "dashboard.html";
+                            "login.html";
 
                     },
-                    500
+                    1500
                 );
 
-
-                return;
-            }
-
-
-            if (response.status === 401) {
-
-                message.textContent =
-                    data.detail ||
-                    "Invalid email or password.";
-
-                message.className =
-                    "error";
 
                 return;
             }
@@ -443,11 +465,30 @@ loginForm.addEventListener(
 
             if (response.status === 422) {
 
-                message.textContent =
-                    "Please enter a valid email and password.";
+                if (
+                    Array.isArray(
+                        data.detail
+                    )
+                ) {
+
+                    message.innerHTML =
+                        data.detail
+                            .map(
+                                error =>
+                                    `${error.loc?.join(" → ") || "Field"}: ${error.msg}`
+                            )
+                            .join("<br>");
+
+                } else {
+
+                    message.textContent =
+                        "Invalid registration data.";
+                }
+
 
                 message.className =
                     "error";
+
 
                 return;
             }
@@ -455,7 +496,7 @@ loginForm.addEventListener(
 
             message.textContent =
                 data.detail ||
-                "Login failed.";
+                "Registration failed.";
 
             message.className =
                 "error";
@@ -466,7 +507,7 @@ loginForm.addEventListener(
         catch (error) {
 
             console.error(
-                "Login error:",
+                "Registration error:",
                 error
             );
 
@@ -482,11 +523,13 @@ loginForm.addEventListener(
 
         finally {
 
-            loginButton.disabled =
+            registerButton.disabled =
                 false;
 
-            loginButton.textContent =
-                "Login";
+
+            registerButton.textContent =
+                "Register";
+
         }
 
     }
