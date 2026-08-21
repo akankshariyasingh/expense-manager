@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Manager - Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: white;
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        header h1 {
+            color: #4f46e5;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #usernameDisplay {
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+
+            background: #ef4444;
+            color: white;
+
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+        textarea {
+
+            min-height: 80px;
+
+            resize: vertical;
+        }
+
+        /* ================= BUTTON ================= */
+
+        button {
+
+            padding: 11px 18px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+        button:hover {
+
+            background: #4338ca;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        #message {
+
+            margin-top: 15px;
+        }
+
+        .success {
+
+            color: green;
+        }
+
+        .error {
+
+            color: red;
+        }
+
+        /* ================= EXPENSE ================= */
+
+        .expense-item {
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+        }
+
+        .expense-item h3 {
+
+            margin-bottom: 8px;
+        }
+
+        .expense-amount {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .expense-description {
+
+            color: #666;
+
+            margin-bottom: 10px;
+        }
+
+        .expense-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+        .edit-btn {
+
+            background: #f59e0b;
+        }
+
+        .edit-btn:hover {
+
+            background: #d97706;
+        }
+
+        .delete-btn {
+
+            background: #ef4444;
+        }
+
+        .delete-btn:hover {
+
+            background: #dc2626;
+        }
+
+        .empty {
+
+            color: #777;
+
+            text-align: center;
+
+            padding: 20px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <h1>
+        Expense Manager
+    </h1>
+
+
+    <div class="user-section">
+
+        <span id="usernameDisplay">
+            User
+        </span>
+
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN CONTAINER
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- =================================================
+         ADD EXPENSE
+    ================================================== -->
+
+    <div class="card">
+
+        <h2>
+            Add Expense
+        </h2>
+
+
+        <form id="expenseForm">
+
+
+            <div class="form-group">
+
+                <label for="title">
+                    Title
+                </label>
+
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="e.g. Lunch"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="amount">
+                    Amount
+                </label>
+
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="e.g. 250"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+
+                <textarea
+                    id="description"
+                    placeholder="e.g. Lunch at college"
+                    required
+                ></textarea>
+
+            </div>
+
+
+
+            <button type="submit">
+                Add Expense
+            </button>
+
+
+        </form>
+
+
+        <div id="message"></div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MY EXPENSES
+    ================================================== -->
+
+    <div class="card">
+
+        <h2>
+            My Expenses
+        </h2>
+
+
+        <div id="expensesContainer">
+
+            <p class="empty">
+                Loading expenses...
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ========================================================
+// API URL
+// ========================================================
+
+const API_URL =
+    "http://127.0.0.1:8000";
+
+
+
+// ========================================================
+// GET JWT TOKEN
+// ========================================================
+
+const token =
+    localStorage.getItem(
+        "access_token"
+    );
+
+
+
+// ========================================================
+// CHECK TOKEN
+// ========================================================
+
+if (!token) {
+
+    alert(
+        "You are not logged in. Please login first."
+    );
+
+    window.location.href =
+        "login.html";
+}
+
+
+
+// ========================================================
+// SHOW USERNAME
+// ========================================================
+
+const storedUser =
+    localStorage.getItem(
+        "user"
+    );
+
+
+if (storedUser) {
+
+    try {
+
+        const user =
+            JSON.parse(
+                storedUser
+            );
+
+
+        document.getElementById(
+            "usernameDisplay"
+        ).textContent =
+            user.username || "User";
+
+
+    } catch (error) {
+
+        console.error(
+            "User parsing error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// ========================================================
+// AUTHORIZATION HEADERS
+// ========================================================
+
+function getAuthHeaders() {
+
+
+    const currentToken =
+        localStorage.getItem(
+            "access_token"
+        );
+
+
+    return {
+
+        "Content-Type":
+            "application/json",
+
+        "Accept":
+            "application/json",
+
+        "Authorization":
+            "Bearer " + currentToken
+
+    };
+
+}
+
+
+
+// ========================================================
+// GET ALL EXPENSES
+// ========================================================
+
+async function loadExpenses() {
+
+
+    const container =
+        document.getElementById(
+            "expensesContainer"
+        );
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/expenses/`,
+                {
+
+                    method: "GET",
+
+                    headers:
+                        getAuthHeaders()
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Expenses response:",
+            response.status,
+            data
+        );
+
+
+
+        // ================================
+        // UNAUTHORIZED
+        // ================================
+
+        if (
+            response.status === 401
+        ) {
+
+            localStorage.removeItem(
+                "access_token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+
+            alert(
+                "Your login session has expired. Please login again."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+
+            return;
+        }
+
+
+
+        // ================================
+        // OTHER ERROR
+        // ================================
+
+        if (!response.ok) {
+
+            container.innerHTML =
+                `
+                <p class="error">
+                    ${
+                        data.detail ||
+                        "Unable to load expenses"
+                    }
+                </p>
+                `;
+
+            return;
+        }
+
+
+
+        // ================================
+        // GET EXPENSE ARRAY
+        // ================================
+
+        const expenses =
+            data.data?.expenses || [];
+
+
+
+        // ================================
+        // NO EXPENSES
+        // ================================
+
+        if (
+            expenses.length === 0
+        ) {
+
+            container.innerHTML =
+                `
+                <p class="empty">
+                    No expenses found.
+                </p>
+                `;
+
+            return;
+        }
+
+
+
+        // ================================
+        // CLEAR CONTAINER
+        // ================================
+
+        container.innerHTML =
+            "";
+
+
+
+        // ================================
+        // DISPLAY EXPENSES
+        // ================================
+
+        expenses.forEach(
+            function(expense) {
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "expense-item";
+
+
+
+                div.innerHTML =
+                    `
+
+                    <h3>
+                        ${escapeHtml(
+                            expense.title
+                        )}
+                    </h3>
+
+
+                    <div class="expense-amount">
+
+                        ₹${expense.amount}
+
+                    </div>
+
+
+                    <div class="expense-description">
+
+                        ${escapeHtml(
+                            expense.description
+                        )}
+
+                    </div>
+
+
+                    <small>
+
+                        ${new Date(
+                            expense.created_at
+                        ).toLocaleString()}
+
+                    </small>
+
+
+                    <div class="expense-actions">
+
+
+                        <button
+                            class="edit-btn"
+                            onclick="editExpense(
+                                ${expense.id}
+                            )"
+                        >
+
+                            Edit
+
+                        </button>
+
+
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteExpense(
+                                ${expense.id}
+                            )"
+                        >
+
+                            Delete
+
+                        </button>
+
+
+                    </div>
+
+                    `;
+
+
+
+                container.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Load expenses error:",
+            error
+        );
+
+
+        container.innerHTML =
+            `
+            <p class="error">
+
+                Unable to connect to the backend.
+
+            </p>
+            `;
+
+    }
+
+}
+
+
+
+// ========================================================
+// ADD EXPENSE
+// ========================================================
+
+document
+    .getElementById(
+        "expenseForm"
+    )
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+
+            event.preventDefault();
+
+
+
+            const title =
+                document
+                    .getElementById(
+                        "title"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const amount =
+                Number(
+                    document
+                        .getElementById(
+                            "amount"
+                        )
+                        .value
+                );
+
+
+
+            const description =
+                document
+                    .getElementById(
+                        "description"
+                    )
+                    .value
+                    .trim();
+
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        `${API_URL}/expenses/`,
+                        {
+
+                            method: "POST",
+
+                            headers:
+                                getAuthHeaders(),
+
+                            body:
+                                JSON.stringify({
+
+                                    title:
+                                        title,
+
+                                    amount:
+                                        amount,
+
+                                    description:
+                                        description,
+
+                                    show:
+                                        true
+
+                                })
+
+                        }
+                    );
+
+
+
+                const data =
+                    await response.json();
+
+
+
+                console.log(
+                    "Create expense:",
+                    response.status,
+                    data
+                );
+
+
+
+                if (
+                    response.status === 401
+                ) {
+
+                    logout();
+
+                    return;
+                }
+
+
+
+                if (!response.ok) {
+
+                    message.textContent =
+                        data.detail ||
+                        "Failed to create expense";
+
+
+                    message.className =
+                        "error";
+
+
+                    return;
+                }
+
+
+
+                message.textContent =
+                    "Expense added successfully!";
+
+
+                message.className =
+                    "success";
+
+
+
+                document
+                    .getElementById(
+                        "expenseForm"
+                    )
+                    .reset();
+
+
+
+                await loadExpenses();
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    "Create expense error:",
+                    error
+                );
+
+
+                message.textContent =
+                    "Unable to connect to the backend.";
+
+
+                message.className =
+                    "error";
+
+            }
+
+        }
+    );
+
+
+
+// ========================================================
+// EDIT EXPENSE
+// ========================================================
+
+async function editExpense(
+    expenseId
+) {
+
+
+    try {
+
+
+        // ============================================
+        // FIRST GET EXISTING EXPENSE
+        // ============================================
+
+        const getResponse =
+            await fetch(
+                `${API_URL}/expenses/${expenseId}`,
+                {
+
+                    method: "GET",
+
+                    headers:
+                        getAuthHeaders()
+
+                }
+            );
+
+
+
+        const getData =
+            await getResponse.json();
+
+
+
+        console.log(
+            "Get expense:",
+            getResponse.status,
+            getData
+        );
+
+
+
+        if (
+            getResponse.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+
+        if (!getResponse.ok) {
+
+            alert(
+                getData.detail ||
+                "Unable to get expense"
+            );
+
+            return;
+        }
+
+
+
+        // ============================================
+        // GET EXPENSE OBJECT
+        // ============================================
+
+        const expense =
+            getData.data?.expense ||
+            getData.expense ||
+            getData.data;
+
+
+
+        if (!expense) {
+
+            alert(
+                "Expense data not found."
+            );
+
+            return;
+        }
+
+
+
+        // ============================================
+        // ASK NEW VALUES
+        // ============================================
+
+        const newTitle =
+            prompt(
+                "Enter new title:",
+                expense.title
+            );
+
+
+        if (
+            newTitle === null
+        ) {
+
+            return;
+
+        }
+
+
+
+        const newAmount =
+            prompt(
+                "Enter new amount:",
+                expense.amount
+            );
+
+
+        if (
+            newAmount === null
+        ) {
+
+            return;
+
+        }
+
+
+
+        const newDescription =
+            prompt(
+                "Enter new description:",
+                expense.description
+            );
+
+
+        if (
+            newDescription === null
+        ) {
+
+            return;
+
+        }
+
+
+
+        // ============================================
+        // UPDATE EXPENSE
+        // ============================================
+
+        const updateResponse =
+            await fetch(
+                `${API_URL}/expenses/${expenseId}`,
+                {
+
+                    method: "PUT",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify({
+
+                            title:
+                                newTitle.trim(),
+
+                            amount:
+                                Number(
+                                    newAmount
+                                ),
+
+                            description:
+                                newDescription.trim(),
+
+                            show:
+                                true
+
+                        })
+
+                }
+            );
+
+
+
+        const updateData =
+            await updateResponse.json();
+
+
+
+        console.log(
+            "Update expense:",
+            updateResponse.status,
+            updateData
+        );
+
+
+
+        if (
+            updateResponse.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+
+        if (
+            !updateResponse.ok
+        ) {
+
+            alert(
+                updateData.detail ||
+                "Unable to update expense"
+            );
+
+            return;
+        }
+
+
+
+        alert(
+            "Expense updated successfully!"
+        );
+
+
+
+        // ============================================
+        // REFRESH EXPENSE LIST
+        // ============================================
+
+        await loadExpenses();
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Update expense error:",
+            error
+        );
+
+
+        alert(
+            "Unable to connect to the backend."
+        );
+
+    }
+
+}
+
+
+
+// ========================================================
+// DELETE EXPENSE
+// ========================================================
+
+async function deleteExpense(
+    expenseId
+) {
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this expense?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/expenses/${expenseId}`,
+                {
+
+                    method: "DELETE",
+
+                    headers:
+                        getAuthHeaders()
+
+                }
+            );
+
+
+
+        const data =
+            await response.json();
+
+
+
+        console.log(
+            "Delete response:",
+            response.status,
+            data
+        );
+
+
+
+        if (
+            response.status === 401
+        ) {
+
+            logout();
+
+            return;
+        }
+
+
+
+        if (!response.ok) {
+
+            alert(
+                data.detail ||
+                "Unable to delete expense."
+            );
+
+            return;
+        }
+
+
+
+        alert(
+            "Expense deleted successfully!"
+        );
+
+
+
+        await loadExpenses();
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+
+        alert(
+            "Unable to connect to the backend."
+        );
+
+    }
+
+}
+
+
+
+// ========================================================
+// LOGOUT
+// ========================================================
+
+function logout() {
+
+
+    localStorage.removeItem(
+        "access_token"
+    );
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+// ========================================================
+// ESCAPE HTML
+// ========================================================
+
+function escapeHtml(
+    value
+) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+
+// ========================================================
+// LOAD EXPENSES WHEN PAGE OPENS
+// ========================================================
+
+loadExpenses();
+
+
+</script>
+
+
+</body>
+
+</html>
