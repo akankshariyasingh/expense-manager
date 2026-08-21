@@ -12,30 +12,37 @@ app = FastAPI(
 )
 
 
-# -------------------------
-# CORS Configuration
-# -------------------------
-
-origins = [
-    "https://expense-manager-frontend-z438.onrender.com",
-    "http://localhost:3000",
-    "http://localhost:5173",
-]
+# =========================================================
+# CORS
+# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+
+    # Production frontend
+    allow_origins=[
+        "https://expense-manager-frontend-z438.onrender.com",
+
+        # Local development
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ],
+
     allow_credentials=True,
+
     allow_methods=["*"],
+
     allow_headers=["*"],
 )
 
 
-# -------------------------
-# API Routers
-# -------------------------
+# =========================================================
+# ROUTERS
+# =========================================================
 
-# User registration:
+# User registration
 # POST /users/
 app.include_router(
     user_router,
@@ -43,18 +50,20 @@ app.include_router(
     tags=["Users"],
 )
 
-# Login:
+
+# Authentication / Login
 # POST /token
 app.include_router(
     auth_router,
     tags=["Authentication"],
 )
 
-# Expense APIs:
-# POST /expenses/
-# GET /expenses/
-# GET /expenses/{expense_id}
-# PUT /expenses/{expense_id}
+
+# Expenses
+# POST   /expenses/
+# GET    /expenses/
+# GET    /expenses/{expense_id}
+# PUT    /expenses/{expense_id}
 # DELETE /expenses/{expense_id}
 app.include_router(
     expense_router,
@@ -63,9 +72,9 @@ app.include_router(
 )
 
 
-# -------------------------
-# Root Endpoint
-# -------------------------
+# =========================================================
+# ROOT
+# =========================================================
 
 @app.get("/")
 def root():
