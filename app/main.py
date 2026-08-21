@@ -30,7 +30,32 @@ app.add_middleware(
 
 
 # ============================================================
-# ROOT / HEALTH
+# ROUTERS
+# ============================================================
+
+# IMPORTANT:
+# user.py already contains the "/users" prefix.
+# Therefore DO NOT add prefix="/users" here.
+
+app.include_router(
+    user_router,
+    tags=["Users"],
+)
+
+app.include_router(
+    auth_router,
+    tags=["Authentication"],
+)
+
+app.include_router(
+    expense_router,
+    prefix="/expenses",
+    tags=["Expenses"],
+)
+
+
+# ============================================================
+# ROOT
 # ============================================================
 
 @app.get("/")
@@ -40,40 +65,12 @@ def root():
     }
 
 
+# ============================================================
+# HEALTH CHECK
+# ============================================================
+
 @app.get("/health")
 def health():
     return {
         "status": "healthy"
     }
-
-
-# ============================================================
-# USER ROUTES
-# ============================================================
-
-app.include_router(
-    user_router,
-    prefix="/users",
-    tags=["Users"],
-)
-
-
-# ============================================================
-# AUTH ROUTES
-# ============================================================
-
-app.include_router(
-    auth_router,
-    tags=["Authentication"],
-)
-
-
-# ============================================================
-# EXPENSE ROUTES
-# ============================================================
-
-app.include_router(
-    expense_router,
-    prefix="/expenses",
-    tags=["Expenses"],
-)
