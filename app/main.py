@@ -12,74 +12,41 @@ app = FastAPI(
 )
 
 
-# =========================================================
+# ============================================================
 # CORS CONFIGURATION
-# =========================================================
+# ============================================================
+
+origins = [
+    "https://expense-manager-frontend-z438.onrender.com",
+    "http://localhost:5173",
+    "http://localhost:3000",
+]
+
 
 app.add_middleware(
     CORSMiddleware,
-
-    # Allow the Render frontend and local development
-    allow_origins=[
-        "https://expense-manager-frontend-z438.onrender.com",
-        "http://expense-manager-frontend-z438.onrender.com",
-
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ],
-
-    # Also allow Render frontend origins
-    allow_origin_regex=r"https://.*\.onrender\.com",
-
+    allow_origins=origins,
     allow_credentials=True,
-
     allow_methods=["*"],
-
     allow_headers=["*"],
 )
 
 
-# =========================================================
-# USER ROUTES
-# =========================================================
+# ============================================================
+# ROUTERS
+# ============================================================
 
-app.include_router(
-    user_router,
-    prefix="/users",
-    tags=["Users"]
-)
+app.include_router(user_router)
+app.include_router(auth_router)
+app.include_router(expense_router)
 
 
-# =========================================================
-# AUTHENTICATION ROUTES
-# =========================================================
-
-app.include_router(
-    auth_router,
-    tags=["Authentication"]
-)
-
-
-# =========================================================
-# EXPENSE ROUTES
-# =========================================================
-
-app.include_router(
-    expense_router,
-    prefix="/expenses",
-    tags=["Expenses"]
-)
-
-
-# =========================================================
-# ROOT ROUTE
-# =========================================================
+# ============================================================
+# ROOT
+# ============================================================
 
 @app.get("/")
 def root():
     return {
-        "message": "Expense Manager API is running",
-        "status": "success"
+        "message": "Expense Manager API is running"
     }
