@@ -7,7 +7,10 @@ from app.models.user import User
 from app.schemas.user import UserCreate
 
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/users",
+    tags=["Users"]
+)
 
 
 @router.post(
@@ -18,23 +21,36 @@ def create_user(
     user_data: UserCreate,
     db: Session = Depends(get_db)
 ):
-    # Check whether email already exists
-    existing_user = (
+    # Check if email already exists
+    existing_email = (
         db.query(User)
         .filter(User.email == user_data.email)
         .first()
     )
 
-    if existing_user:
+    if existing_email:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered"
         )
 
-    # Hash password before storing it
+    # Check if username already exists
+    existing_username = (
+        db.query(User)
+        .filter(User.username == user_data.username)
+        .first()
+    )
+
+    if existing_username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already taken"
+        )
+
+    # Hash password
     hashed_password = hash_password(user_data.password)
 
-    # Create new user
+    # Create user
     new_user = User(
         username=user_data.username,
         email=user_data.email,
