@@ -5,9 +5,13 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Expense Manager - Register</title>
+
 
     <style>
 
@@ -17,19 +21,28 @@
             padding: 0;
         }
 
+
         body {
+
             font-family: Arial, sans-serif;
+
             background: #f4f6f8;
 
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
         }
 
+
         .container {
+
             width: 100%;
+
             max-width: 420px;
 
             background: white;
@@ -38,33 +51,56 @@
 
             border-radius: 10px;
 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.1);
+
         }
+
 
         h1 {
+
             text-align: center;
+
             margin-bottom: 10px;
+
             color: #4f46e5;
+
         }
+
 
         .subtitle {
+
             text-align: center;
+
             color: #666;
+
             margin-bottom: 25px;
+
         }
+
 
         .form-group {
+
             margin-bottom: 18px;
+
         }
+
 
         label {
+
             display: block;
+
             margin-bottom: 7px;
+
             font-weight: 600;
+
             color: #333;
+
         }
 
+
         input {
+
             width: 100%;
 
             padding: 12px;
@@ -74,14 +110,21 @@
             border-radius: 6px;
 
             font-size: 14px;
+
         }
+
 
         input:focus {
+
             outline: none;
+
             border-color: #4f46e5;
+
         }
 
+
         button {
+
             width: 100%;
 
             padding: 12px;
@@ -99,47 +142,70 @@
             font-weight: 600;
 
             cursor: pointer;
+
         }
+
 
         button:hover {
+
             background: #4338ca;
+
         }
+
 
         button:disabled {
+
             background: #999;
+
             cursor: not-allowed;
+
         }
 
+
         #message {
+
             margin-top: 15px;
 
             text-align: center;
 
             line-height: 1.5;
+
         }
+
 
         .success {
+
             color: green;
+
         }
+
 
         .error {
+
             color: red;
+
         }
 
+
         .login-link {
+
             text-align: center;
 
             margin-top: 20px;
 
             color: #666;
+
         }
 
+
         .login-link a {
+
             color: #4f46e5;
 
             font-weight: 600;
 
             text-decoration: none;
+
         }
 
     </style>
@@ -174,6 +240,7 @@
                     Username
                 </label>
 
+
                 <input
                     type="text"
                     id="username"
@@ -193,6 +260,7 @@
                     Email
                 </label>
 
+
                 <input
                     type="email"
                     id="email"
@@ -210,6 +278,7 @@
                 <label for="password">
                     Password
                 </label>
+
 
                 <input
                     type="password"
@@ -254,6 +323,18 @@
     <script>
 
 
+        // ==================================================
+        // PRODUCTION BACKEND URL
+        // ==================================================
+
+        const API_URL =
+            "https://expense-manager-api-lpdf.onrender.com";
+
+
+        // ==================================================
+        // ELEMENTS
+        // ==================================================
+
         const registerForm =
             document.getElementById(
                 "registerForm"
@@ -272,12 +353,20 @@
             );
 
 
+        // ==================================================
+        // REGISTER
+        // ==================================================
+
         registerForm.addEventListener(
             "submit",
             async function(event) {
 
                 event.preventDefault();
 
+
+                // ------------------------------------------
+                // GET FORM VALUES
+                // ------------------------------------------
 
                 const username =
                     document
@@ -305,10 +394,18 @@
                         .value;
 
 
+                // ------------------------------------------
+                // CLEAR OLD MESSAGE
+                // ------------------------------------------
+
                 message.textContent = "";
 
                 message.className = "";
 
+
+                // ------------------------------------------
+                // DISABLE BUTTON
+                // ------------------------------------------
 
                 registerButton.disabled =
                     true;
@@ -320,9 +417,13 @@
                 try {
 
 
+                    // --------------------------------------
+                    // CALL LIVE RENDER BACKEND
+                    // --------------------------------------
+
                     const response =
                         await fetch(
-                            "http://127.0.0.1:8000/users/",
+                            `${API_URL}/users/`,
                             {
 
                                 method: "POST",
@@ -355,6 +456,10 @@
                         );
 
 
+                    // --------------------------------------
+                    // READ RESPONSE
+                    // --------------------------------------
+
                     const data =
                         await response.json();
 
@@ -371,7 +476,9 @@
                     );
 
 
+                    // --------------------------------------
                     // SUCCESS
+                    // --------------------------------------
 
                     if (response.ok) {
 
@@ -401,17 +508,21 @@
                     }
 
 
+                    // --------------------------------------
                     // VALIDATION ERROR
+                    // --------------------------------------
 
                     if (
                         response.status === 422
                     ) {
 
+
                         if (
                             Array.isArray(
                                 data.detail
                             )
-                        ) {
+                        {
+
 
                             const errors =
                                 data.detail.map(
@@ -424,6 +535,7 @@
                                                 )
                                                 : "field";
 
+
                                         return (
                                             location +
                                             ": " +
@@ -435,9 +547,12 @@
 
 
                             message.innerHTML =
-                                errors.join("<br>");
+                                errors.join(
+                                    "<br>"
+                                );
 
                         }
+
 
                         else {
 
@@ -450,16 +565,21 @@
                         message.className =
                             "error";
 
+
                         return;
 
                     }
 
 
-                    // OTHER ERROR
+                    // --------------------------------------
+                    // OTHER BACKEND ERROR
+                    // --------------------------------------
 
                     message.textContent =
                         data.detail ||
+                        data.message ||
                         "Registration failed.";
+
 
                     message.className =
                         "error";
@@ -467,7 +587,9 @@
 
                 }
 
+
                 catch (error) {
+
 
                     console.error(
                         "Registration error:",
@@ -478,20 +600,27 @@
                     message.textContent =
                         "Unable to connect to the backend.";
 
+
                     message.className =
                         "error";
 
                 }
 
 
+                // ------------------------------------------
+                // ENABLE BUTTON AGAIN
+                // ------------------------------------------
+
                 registerButton.disabled =
                     false;
+
 
                 registerButton.textContent =
                     "Register";
 
             }
         );
+
 
     </script>
 
