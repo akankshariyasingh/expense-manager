@@ -1,7 +1,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.routers.user import router
+
+
+app = FastAPI(
+    title="Expense Manager API",
+    description="Backend API for Expense Manager",
+    version="1.0.0",
+)
+
+
+# -------------------------
+# CORS Configuration
+# -------------------------
 
 origins = [
     "https://expense-manager-frontend-z438.onrender.com",
@@ -17,5 +29,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Your routers
-app.include_router(...)
+
+# -------------------------
+# Routers
+# -------------------------
+
+app.include_router(router)
+
+
+# -------------------------
+# Root Endpoint
+# -------------------------
+
+@app.get("/")
+def root():
+    return {
+        "message": "Expense Manager API is running"
+    }
