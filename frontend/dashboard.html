@@ -2,8 +2,13 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Expense Manager - Dashboard</title>
 
@@ -31,7 +36,8 @@
             justify-content: space-between;
             align-items: center;
 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         header h1 {
@@ -50,6 +56,7 @@
 
         .logout-btn {
             padding: 8px 15px;
+
             border: none;
             border-radius: 6px;
 
@@ -67,7 +74,9 @@
 
         .container {
             max-width: 1000px;
+
             margin: 40px auto;
+
             padding: 0 20px;
         }
 
@@ -116,6 +125,14 @@
             border-radius: 6px;
 
             font-size: 14px;
+        }
+
+        input:focus,
+        textarea:focus {
+
+            outline: none;
+
+            border-color: #4f46e5;
         }
 
         textarea {
@@ -276,7 +293,6 @@
 </header>
 
 
-
 <!-- =====================================================
      MAIN CONTAINER
 ===================================================== -->
@@ -315,7 +331,6 @@
             </div>
 
 
-
             <div class="form-group">
 
                 <label for="amount">
@@ -335,7 +350,6 @@
             </div>
 
 
-
             <div class="form-group">
 
                 <label for="description">
@@ -352,7 +366,6 @@
             </div>
 
 
-
             <button type="submit">
                 Add Expense
             </button>
@@ -364,7 +377,6 @@
         <div id="message"></div>
 
     </div>
-
 
 
     <!-- =================================================
@@ -392,17 +404,15 @@
 </div>
 
 
-
 <script>
 
 
 // ========================================================
-// API URL
+// PRODUCTION API URL
 // ========================================================
 
 const API_URL =
-    "http://127.0.0.1:8000";
-
+    "https://expense-manager-api-lpdf.onrender.com";
 
 
 // ========================================================
@@ -413,7 +423,6 @@ const token =
     localStorage.getItem(
         "access_token"
     );
-
 
 
 // ========================================================
@@ -429,7 +438,6 @@ if (!token) {
     window.location.href =
         "login.html";
 }
-
 
 
 // ========================================================
@@ -470,13 +478,11 @@ if (storedUser) {
 }
 
 
-
 // ========================================================
 // AUTHORIZATION HEADERS
 // ========================================================
 
 function getAuthHeaders() {
-
 
     const currentToken =
         localStorage.getItem(
@@ -500,13 +506,11 @@ function getAuthHeaders() {
 }
 
 
-
 // ========================================================
 // GET ALL EXPENSES
 // ========================================================
 
 async function loadExpenses() {
-
 
     const container =
         document.getElementById(
@@ -515,7 +519,6 @@ async function loadExpenses() {
 
 
     try {
-
 
         const response =
             await fetch(
@@ -540,7 +543,6 @@ async function loadExpenses() {
             response.status,
             data
         );
-
 
 
         // ================================
@@ -573,7 +575,6 @@ async function loadExpenses() {
         }
 
 
-
         // ================================
         // OTHER ERROR
         // ================================
@@ -594,14 +595,12 @@ async function loadExpenses() {
         }
 
 
-
         // ================================
         // GET EXPENSE ARRAY
         // ================================
 
         const expenses =
             data.data?.expenses || [];
-
 
 
         // ================================
@@ -623,14 +622,12 @@ async function loadExpenses() {
         }
 
 
-
         // ================================
         // CLEAR CONTAINER
         // ================================
 
         container.innerHTML =
             "";
-
 
 
         // ================================
@@ -651,10 +648,8 @@ async function loadExpenses() {
                     "expense-item";
 
 
-
                 div.innerHTML =
                     `
-
                     <h3>
                         ${escapeHtml(
                             expense.title
@@ -702,7 +697,6 @@ async function loadExpenses() {
                         </button>
 
 
-
                         <button
                             class="delete-btn"
                             onclick="deleteExpense(
@@ -720,7 +714,6 @@ async function loadExpenses() {
                     `;
 
 
-
                 container.appendChild(
                     div
                 );
@@ -728,12 +721,10 @@ async function loadExpenses() {
             }
         );
 
-
     }
 
 
     catch (error) {
-
 
         console.error(
             "Load expenses error:",
@@ -755,7 +746,6 @@ async function loadExpenses() {
 }
 
 
-
 // ========================================================
 // ADD EXPENSE
 // ========================================================
@@ -772,7 +762,6 @@ document
             event.preventDefault();
 
 
-
             const title =
                 document
                     .getElementById(
@@ -780,7 +769,6 @@ document
                     )
                     .value
                     .trim();
-
 
 
             const amount =
@@ -793,7 +781,6 @@ document
                 );
 
 
-
             const description =
                 document
                     .getElementById(
@@ -803,16 +790,13 @@ document
                     .trim();
 
 
-
             const message =
                 document.getElementById(
                     "message"
                 );
 
 
-
             try {
-
 
                 const response =
                     await fetch(
@@ -845,10 +829,8 @@ document
                     );
 
 
-
                 const data =
                     await response.json();
-
 
 
                 console.log(
@@ -856,7 +838,6 @@ document
                     response.status,
                     data
                 );
-
 
 
                 if (
@@ -867,7 +848,6 @@ document
 
                     return;
                 }
-
 
 
                 if (!response.ok) {
@@ -885,14 +865,12 @@ document
                 }
 
 
-
                 message.textContent =
                     "Expense added successfully!";
 
 
                 message.className =
                     "success";
-
 
 
                 document
@@ -902,15 +880,12 @@ document
                     .reset();
 
 
-
                 await loadExpenses();
-
 
             }
 
 
             catch (error) {
-
 
                 console.error(
                     "Create expense error:",
@@ -931,7 +906,6 @@ document
     );
 
 
-
 // ========================================================
 // EDIT EXPENSE
 // ========================================================
@@ -945,7 +919,7 @@ async function editExpense(
 
 
         // ============================================
-        // FIRST GET EXISTING EXPENSE
+        // GET EXISTING EXPENSE
         // ============================================
 
         const getResponse =
@@ -962,10 +936,8 @@ async function editExpense(
             );
 
 
-
         const getData =
             await getResponse.json();
-
 
 
         console.log(
@@ -973,7 +945,6 @@ async function editExpense(
             getResponse.status,
             getData
         );
-
 
 
         if (
@@ -984,7 +955,6 @@ async function editExpense(
 
             return;
         }
-
 
 
         if (!getResponse.ok) {
@@ -998,7 +968,6 @@ async function editExpense(
         }
 
 
-
         // ============================================
         // GET EXPENSE OBJECT
         // ============================================
@@ -1009,7 +978,6 @@ async function editExpense(
             getData.data;
 
 
-
         if (!expense) {
 
             alert(
@@ -1018,7 +986,6 @@ async function editExpense(
 
             return;
         }
-
 
 
         // ============================================
@@ -1037,9 +1004,7 @@ async function editExpense(
         ) {
 
             return;
-
         }
-
 
 
         const newAmount =
@@ -1054,9 +1019,7 @@ async function editExpense(
         ) {
 
             return;
-
         }
-
 
 
         const newDescription =
@@ -1071,9 +1034,7 @@ async function editExpense(
         ) {
 
             return;
-
         }
-
 
 
         // ============================================
@@ -1113,10 +1074,8 @@ async function editExpense(
             );
 
 
-
         const updateData =
             await updateResponse.json();
-
 
 
         console.log(
@@ -1124,7 +1083,6 @@ async function editExpense(
             updateResponse.status,
             updateData
         );
-
 
 
         if (
@@ -1135,7 +1093,6 @@ async function editExpense(
 
             return;
         }
-
 
 
         if (
@@ -1151,11 +1108,9 @@ async function editExpense(
         }
 
 
-
         alert(
             "Expense updated successfully!"
         );
-
 
 
         // ============================================
@@ -1164,12 +1119,10 @@ async function editExpense(
 
         await loadExpenses();
 
-
     }
 
 
     catch (error) {
-
 
         console.error(
             "Update expense error:",
@@ -1184,7 +1137,6 @@ async function editExpense(
     }
 
 }
-
 
 
 // ========================================================
@@ -1205,9 +1157,7 @@ async function deleteExpense(
     if (!confirmDelete) {
 
         return;
-
     }
-
 
 
     try {
@@ -1227,10 +1177,8 @@ async function deleteExpense(
             );
 
 
-
         const data =
             await response.json();
-
 
 
         console.log(
@@ -1238,7 +1186,6 @@ async function deleteExpense(
             response.status,
             data
         );
-
 
 
         if (
@@ -1249,7 +1196,6 @@ async function deleteExpense(
 
             return;
         }
-
 
 
         if (!response.ok) {
@@ -1263,21 +1209,17 @@ async function deleteExpense(
         }
 
 
-
         alert(
             "Expense deleted successfully!"
         );
 
 
-
         await loadExpenses();
-
 
     }
 
 
     catch (error) {
-
 
         console.error(
             "Delete error:",
@@ -1294,13 +1236,11 @@ async function deleteExpense(
 }
 
 
-
 // ========================================================
 // LOGOUT
 // ========================================================
 
 function logout() {
-
 
     localStorage.removeItem(
         "access_token"
@@ -1318,7 +1258,6 @@ function logout() {
 }
 
 
-
 // ========================================================
 // ESCAPE HTML
 // ========================================================
@@ -1326,7 +1265,6 @@ function logout() {
 function escapeHtml(
     value
 ) {
-
 
     const div =
         document.createElement(
@@ -1341,7 +1279,6 @@ function escapeHtml(
     return div.innerHTML;
 
 }
-
 
 
 // ========================================================
