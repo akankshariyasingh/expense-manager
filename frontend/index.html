@@ -12,7 +12,6 @@
 
     <title>Expense Manager - Register</title>
 
-
     <style>
 
         * {
@@ -21,28 +20,18 @@
             padding: 0;
         }
 
-
         body {
-
             font-family: Arial, sans-serif;
-
             background: #f4f6f8;
-
             min-height: 100vh;
 
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
         }
 
-
         .container {
-
             width: 100%;
-
             max-width: 420px;
 
             background: white;
@@ -53,41 +42,29 @@
 
             box-shadow:
                 0 4px 20px rgba(0, 0, 0, 0.1);
-
         }
 
-
         h1 {
-
             text-align: center;
 
             margin-bottom: 10px;
 
             color: #4f46e5;
-
         }
 
-
         .subtitle {
-
             text-align: center;
 
             color: #666;
 
             margin-bottom: 25px;
-
         }
-
 
         .form-group {
-
             margin-bottom: 18px;
-
         }
 
-
         label {
-
             display: block;
 
             margin-bottom: 7px;
@@ -95,12 +72,9 @@
             font-weight: 600;
 
             color: #333;
-
         }
 
-
         input {
-
             width: 100%;
 
             padding: 12px;
@@ -110,21 +84,15 @@
             border-radius: 6px;
 
             font-size: 14px;
-
         }
 
-
         input:focus {
-
             outline: none;
 
             border-color: #4f46e5;
-
         }
 
-
         button {
-
             width: 100%;
 
             padding: 12px;
@@ -142,70 +110,48 @@
             font-weight: 600;
 
             cursor: pointer;
-
         }
-
 
         button:hover {
-
             background: #4338ca;
-
         }
 
-
         button:disabled {
-
             background: #999;
 
             cursor: not-allowed;
-
         }
 
-
         #message {
-
             margin-top: 15px;
 
             text-align: center;
 
             line-height: 1.5;
-
         }
-
 
         .success {
-
             color: green;
-
         }
-
 
         .error {
-
             color: red;
-
         }
 
-
         .login-link {
-
             text-align: center;
 
             margin-top: 20px;
 
             color: #666;
-
         }
 
-
         .login-link a {
-
             color: #4f46e5;
 
             font-weight: 600;
 
             text-decoration: none;
-
         }
 
     </style>
@@ -232,14 +178,11 @@
         <form id="registerForm">
 
 
-            <!-- USERNAME -->
-
             <div class="form-group">
 
                 <label for="username">
                     Username
                 </label>
-
 
                 <input
                     type="text"
@@ -252,14 +195,11 @@
             </div>
 
 
-            <!-- EMAIL -->
-
             <div class="form-group">
 
                 <label for="email">
                     Email
                 </label>
-
 
                 <input
                     type="email"
@@ -271,14 +211,11 @@
             </div>
 
 
-            <!-- PASSWORD -->
-
             <div class="form-group">
 
                 <label for="password">
                     Password
                 </label>
-
 
                 <input
                     type="password"
@@ -322,94 +259,65 @@
     <script>
 
 
-        // ==================================================
-        // PRODUCTION BACKEND URL
-        // ==================================================
+        // ==========================================
+        // LIVE RENDER BACKEND
+        // ==========================================
 
         const API_URL =
             "https://expense-manager-api-lpdf.onrender.com";
 
 
-        // ==================================================
+        // ==========================================
         // ELEMENTS
-        // ==================================================
+        // ==========================================
 
         const registerForm =
-            document.getElementById(
-                "registerForm"
-            );
-
+            document.getElementById("registerForm");
 
         const registerButton =
-            document.getElementById(
-                "registerButton"
-            );
-
+            document.getElementById("registerButton");
 
         const message =
-            document.getElementById(
-                "message"
-            );
+            document.getElementById("message");
 
 
-        // ==================================================
-        // REGISTER USER
-        // ==================================================
+        // ==========================================
+        // REGISTER
+        // ==========================================
 
         registerForm.addEventListener(
             "submit",
             async function(event) {
 
-
                 event.preventDefault();
 
 
-                // ------------------------------------------
-                // GET FORM VALUES
-                // ------------------------------------------
-
                 const username =
                     document
-                        .getElementById(
-                            "username"
-                        )
+                        .getElementById("username")
                         .value
                         .trim();
 
 
                 const email =
                     document
-                        .getElementById(
-                            "email"
-                        )
+                        .getElementById("email")
                         .value
                         .trim();
 
 
                 const password =
                     document
-                        .getElementById(
-                            "password"
-                        )
+                        .getElementById("password")
                         .value;
 
-
-                // ------------------------------------------
-                // CLEAR MESSAGE
-                // ------------------------------------------
 
                 message.textContent = "";
 
                 message.className = "";
 
 
-                // ------------------------------------------
-                // DISABLE BUTTON
-                // ------------------------------------------
-
-                registerButton.disabled =
-                    true;
-
+                registerButton.disabled = true;
 
                 registerButton.textContent =
                     "Registering...";
@@ -418,31 +326,26 @@
                 try {
 
 
-                    // ======================================
-                    // CALL LIVE RENDER BACKEND
-                    // ======================================
+                    // ==================================
+                    // CALL PRODUCTION BACKEND
+                    // ==================================
 
                     const response =
                         await fetch(
                             `${API_URL}/users/`,
                             {
-
                                 method: "POST",
 
                                 headers: {
-
                                     "Content-Type":
                                         "application/json",
 
                                     "Accept":
                                         "application/json"
-
                                 },
-
 
                                 body:
                                     JSON.stringify({
-
                                         username:
                                             username,
 
@@ -451,43 +354,35 @@
 
                                         password:
                                             password
-
                                     })
-
                             }
                         );
 
-
-                    // ======================================
-                    // READ RESPONSE
-                    // ======================================
 
                     const data =
                         await response.json();
 
 
                     console.log(
-                        "Register status:",
+                        "Backend status:",
                         response.status
                     );
 
 
                     console.log(
-                        "Register response:",
+                        "Backend response:",
                         data
                     );
 
 
-                    // ======================================
+                    // ==================================
                     // SUCCESS
-                    // ======================================
+                    // ==================================
 
                     if (response.ok) {
 
-
                         message.textContent =
                             "Registration successful!";
-
 
                         message.className =
                             "success";
@@ -508,30 +403,24 @@
 
 
                         return;
-
                     }
 
 
-                    // ======================================
+                    // ==================================
                     // VALIDATION ERROR
-                    // ======================================
+                    // ==================================
 
                     if (
                         response.status === 422
                     ) {
 
-
                         if (
-                            Array.isArray(
-                                data.detail
-                            )
+                            Array.isArray(data.detail)
                         ) {
-
 
                             const errors =
                                 data.detail.map(
                                     function(error) {
-
 
                                         const location =
                                             error.loc
@@ -552,15 +441,11 @@
 
 
                             message.innerHTML =
-                                errors.join(
-                                    "<br>"
-                                );
+                                errors.join("<br>");
 
                         }
 
-
                         else {
-
 
                             message.textContent =
                                 "Invalid registration data.";
@@ -573,13 +458,12 @@
 
 
                         return;
-
                     }
 
 
-                    // ======================================
+                    // ==================================
                     // OTHER BACKEND ERROR
-                    // ======================================
+                    // ==================================
 
                     message.textContent =
                         data.detail ||
@@ -593,9 +477,7 @@
 
                 }
 
-
                 catch (error) {
-
 
                     console.error(
                         "Registration error:",
@@ -613,17 +495,12 @@
                 }
 
 
-                // ======================================
-                // ENABLE BUTTON AGAIN
-                // ======================================
-
                 registerButton.disabled =
                     false;
 
 
                 registerButton.textContent =
                     "Register";
-
 
             }
         );
