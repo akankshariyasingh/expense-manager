@@ -1,73 +1,32 @@
-from datetime import datetime
-from typing import Optional
-
 from pydantic import BaseModel, EmailStr, Field
 
 
-class UserRequestDto(BaseModel):
-
+class UserCreate(BaseModel):
     username: str = Field(
         ...,
-        description="The username of the user",
-        min_length=3
+        min_length=3,
+        max_length=50,
+        description="Username of the user"
     )
 
     email: EmailStr = Field(
         ...,
-        description="The email address of the user"
+        description="Email address of the user"
     )
 
     password: str = Field(
         ...,
-        description="The password for the user",
-        min_length=6
+        min_length=6,
+        max_length=100,
+        description="Password of the user"
     )
 
 
-class UserUpdateDto(BaseModel):
-
-    username: Optional[str] = Field(
-        None,
-        description="The updated username",
-        min_length=3
-    )
-
-    email: Optional[EmailStr] = Field(
-        None,
-        description="The updated email address"
-    )
-
-    password: Optional[str] = Field(
-        None,
-        description="The updated password",
-        min_length=6
-    )
-
-
-class UserresponseDto(BaseModel):
-
+class UserResponse(BaseModel):
     id: int
-
     username: str
+    email: EmailStr
 
-    email: str
-
-    created_at: datetime
-
-    model_config = {
-        "from_attributes": True
-    }
-
-
-class LoginRequest(BaseModel):
-
-    email: str
-
-    password: str
-
-
-class LoginResponse(BaseModel):
-
-    access_token: str
-
-    user: UserresponseDto
+    class Config:
+        from_attributes = True
+        

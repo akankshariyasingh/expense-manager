@@ -13,6 +13,7 @@ __pycache__/
 
 # Environment variables
 .env
+.env.supabase
 
 # macOS
 .DS_Store

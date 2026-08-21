@@ -8,20 +8,20 @@ from app.core.jwt_helper import create_access_token
 from app.models.user import User
 
 
-auth_router = APIRouter(
-    prefix="/auth",
-    tags=["Authentication"]
-)
+router = APIRouter()
 
 
-@auth_router.post("/token")
-def login_user(
+@router.post("/token")
+def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
-
-    # OAuth2 uses "username" as the login field.
-    # We are using it to receive the user's email.
+    """
+    Login user and return JWT access token.
+    Swagger sends:
+    username = user's email
+    password = user's password
+    """
 
     user = (
         db.query(User)
@@ -29,26 +29,26 @@ def login_user(
         .first()
     )
 
-    # Check user and password
-
     if not user:
-
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Email or Password!"
+            detail="Incorrect email or password",
+            headers={
+                "WWW-Authenticate": "Bearer"
+            }
         )
 
     if not verify_password(
         user.password,
         form_data.password
     ):
-
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Email or Password!"
+            detail="Incorrect email or password",
+            headers={
+                "WWW-Authenticate": "Bearer"
+            }
         )
-
-    # Create JWT
 
     access_token = create_access_token(
         data={
