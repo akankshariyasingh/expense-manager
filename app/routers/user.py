@@ -18,10 +18,6 @@ def create_user(
     user_data: UserCreate,
     db: Session = Depends(get_db)
 ):
-    """
-    Create a new user account.
-    """
-
     # Check whether email already exists
     existing_user = (
         db.query(User)
@@ -35,11 +31,14 @@ def create_user(
             detail="Email already registered"
         )
 
-    # Create user
+    # Hash password before storing it
+    hashed_password = hash_password(user_data.password)
+
+    # Create new user
     new_user = User(
         username=user_data.username,
         email=user_data.email,
-        password=hash_password(user_data.password)
+        password=hashed_password
     )
 
     db.add(new_user)
@@ -47,13 +46,10 @@ def create_user(
     db.refresh(new_user)
 
     return {
-        "status": "success",
-        "message": "User registered successfully",
-        "data": {
-            "user": {
-                "id": new_user.id,
-                "username": new_user.username,
-                "email": new_user.email
-            }
+        "message": "User created successfully",
+        "user": {
+            "id": new_user.id,
+            "username": new_user.username,
+            "email": new_user.email
         }
     }
