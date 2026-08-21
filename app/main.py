@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.user import router as user_router
+from app.routers.auth import router as auth_router
+from app.routers.expense import router as expense_router
 
 
 app = FastAPI(
@@ -11,7 +13,7 @@ app = FastAPI(
 
 
 # -------------------------
-# CORS
+# CORS Configuration
 # -------------------------
 
 origins = [
@@ -30,14 +32,39 @@ app.add_middleware(
 
 
 # -------------------------
-# Routers
+# API Routers
 # -------------------------
 
-app.include_router(user_router)
+# User registration:
+# POST /users/
+app.include_router(
+    user_router,
+    prefix="/users",
+    tags=["Users"],
+)
+
+# Login:
+# POST /token
+app.include_router(
+    auth_router,
+    tags=["Authentication"],
+)
+
+# Expense APIs:
+# POST /expenses/
+# GET /expenses/
+# GET /expenses/{expense_id}
+# PUT /expenses/{expense_id}
+# DELETE /expenses/{expense_id}
+app.include_router(
+    expense_router,
+    prefix="/expenses",
+    tags=["Expenses"],
+)
 
 
 # -------------------------
-# Root
+# Root Endpoint
 # -------------------------
 
 @app.get("/")
