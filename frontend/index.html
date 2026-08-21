@@ -319,7 +319,6 @@
     </div>
 
 
-
     <script>
 
 
@@ -354,12 +353,13 @@
 
 
         // ==================================================
-        // REGISTER
+        // REGISTER USER
         // ==================================================
 
         registerForm.addEventListener(
             "submit",
             async function(event) {
+
 
                 event.preventDefault();
 
@@ -395,7 +395,7 @@
 
 
                 // ------------------------------------------
-                // CLEAR OLD MESSAGE
+                // CLEAR MESSAGE
                 // ------------------------------------------
 
                 message.textContent = "";
@@ -410,6 +410,7 @@
                 registerButton.disabled =
                     true;
 
+
                 registerButton.textContent =
                     "Registering...";
 
@@ -417,9 +418,9 @@
                 try {
 
 
-                    // --------------------------------------
+                    // ======================================
                     // CALL LIVE RENDER BACKEND
-                    // --------------------------------------
+                    // ======================================
 
                     const response =
                         await fetch(
@@ -437,6 +438,7 @@
                                         "application/json"
 
                                 },
+
 
                                 body:
                                     JSON.stringify({
@@ -456,9 +458,9 @@
                         );
 
 
-                    // --------------------------------------
+                    // ======================================
                     // READ RESPONSE
-                    // --------------------------------------
+                    // ======================================
 
                     const data =
                         await response.json();
@@ -476,14 +478,16 @@
                     );
 
 
-                    // --------------------------------------
+                    // ======================================
                     // SUCCESS
-                    // --------------------------------------
+                    // ======================================
 
                     if (response.ok) {
 
+
                         message.textContent =
                             "Registration successful!";
+
 
                         message.className =
                             "success";
@@ -508,9 +512,9 @@
                     }
 
 
-                    // --------------------------------------
+                    // ======================================
                     // VALIDATION ERROR
-                    // --------------------------------------
+                    // ======================================
 
                     if (
                         response.status === 422
@@ -521,12 +525,13 @@
                             Array.isArray(
                                 data.detail
                             )
-                        {
+                        ) {
 
 
                             const errors =
                                 data.detail.map(
                                     function(error) {
+
 
                                         const location =
                                             error.loc
@@ -556,6 +561,7 @@
 
                         else {
 
+
                             message.textContent =
                                 "Invalid registration data.";
 
@@ -571,9 +577,9 @@
                     }
 
 
-                    // --------------------------------------
+                    // ======================================
                     // OTHER BACKEND ERROR
-                    // --------------------------------------
+                    // ======================================
 
                     message.textContent =
                         data.detail ||
@@ -607,9 +613,9 @@
                 }
 
 
-                // ------------------------------------------
+                // ======================================
                 // ENABLE BUTTON AGAIN
-                // ------------------------------------------
+                // ======================================
 
                 registerButton.disabled =
                     false;
@@ -617,6 +623,7 @@
 
                 registerButton.textContent =
                     "Register";
+
 
             }
         );
