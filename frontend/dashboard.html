@@ -961,6 +961,396 @@ textarea {
 
 }
 
+
+
+/* ========================================================
+   CATEGORY LIST - CLEAN HORIZONTAL ROWS
+   ======================================================== */
+
+#category-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+#expensesContainer.category-detail-mode {
+    display: block;
+}
+
+
+.category-row {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 15px 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8ecf2;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+
+    box-sizing: border-box;
+
+}
+
+
+.category-row:hover {
+
+    transform: translateY(-1px);
+
+    border-color: #cfd6e4;
+
+    box-shadow:
+        0 6px 18px rgba(
+            31,
+            41,
+            55,
+            0.07
+        );
+
+}
+
+
+.category-row-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+
+}
+
+
+.category-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #f1f4f9;
+
+    font-size: 20px;
+
+}
+
+
+.category-row-info {
+
+    min-width: 0;
+
+}
+
+
+.category-row-name {
+
+    color: #202b40;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+}
+
+
+.category-row-count {
+
+    margin-top: 3px;
+
+    color: #98a1af;
+
+    font-size: 11px;
+
+}
+
+
+.category-row-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    flex-shrink: 0;
+
+}
+
+
+.category-row-amount {
+
+    color: #4f46e5;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+.category-arrow {
+
+    color: #8c96a5;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+}
+
+
+/* ========================================================
+   CATEGORY DETAILS
+   ======================================================== */
+
+.category-detail-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 4px 0 16px;
+
+    border-bottom: 1px solid #edf0f4;
+
+    margin-bottom: 10px;
+
+}
+
+
+.back-category-btn {
+
+    border: none;
+
+    background: #f1f4f9;
+
+    color: #344054;
+
+    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.back-category-btn:hover {
+
+    background: #e8ecf2;
+
+}
+
+
+.selected-category-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #202b40;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.selected-category-total {
+
+    margin-left: auto;
+
+    color: #98a1af;
+
+    font-size: 12px;
+
+}
+
+
+/* ========================================================
+   INDIVIDUAL EXPENSES INSIDE CATEGORY
+   ======================================================== */
+
+.category-expense-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 14px 4px;
+
+    border-bottom: 1px solid #edf0f4;
+
+}
+
+
+.category-expense-main {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.category-expense-title {
+
+    color: #202b40;
+
+    font-size: 14px;
+
+    font-weight: 750;
+
+}
+
+
+.category-expense-description {
+
+    margin-top: 3px;
+
+    color: #7d8796;
+
+    font-size: 11px;
+
+}
+
+
+.category-expense-date {
+
+    margin-top: 4px;
+
+    color: #a0a8b4;
+
+    font-size: 10px;
+
+}
+
+
+.category-expense-amount {
+
+    color: #111827;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+}
+
+
+.category-expense-actions {
+
+    display: flex;
+
+    gap: 6px;
+
+}
+
+
+.category-empty {
+
+    padding: 25px;
+
+    text-align: center;
+
+    color: #98a1af;
+
+}
+
+
+/* ========================================================
+   MOBILE
+   ======================================================== */
+
+@media (max-width: 700px) {
+
+    .category-row {
+
+        padding: 13px;
+
+    }
+
+
+    .category-row-amount {
+
+        font-size: 13px;
+
+    }
+
+
+    .category-row-right {
+
+        gap: 7px;
+
+    }
+
+
+    .category-expense-row {
+
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+
+    }
+
+
+    .category-expense-amount {
+
+        margin-left: auto;
+
+    }
+
+
+    .category-expense-actions {
+
+        width: 100%;
+
+        justify-content: flex-end;
+
+    }
+
+}
 </style>
 
 </head>
@@ -1252,11 +1642,11 @@ textarea {
         <div class="card-header">
 
             <h2>
-                Spending by Category
+                Expense Categories
             </h2>
 
             <p>
-                Understand where most of your money is going.
+                Select a category to view all related expenses.
             </p>
 
         </div>
@@ -1626,6 +2016,10 @@ async function loadExpenses() {
             "expensesContainer"
         );
 
+    if (container) {
+        container.classList.remove("category-detail-mode");
+    }
+
 
     try {
 
@@ -1920,158 +2314,136 @@ function updateOverview(
 // CATEGORY SUMMARY
 // ========================================================
 
-function renderCategorySummary(
-    expenses
-) {
+function renderCategorySummary(expenses) {
 
     const container =
-        document.getElementById(
-            "category-summary"
-        );
-
+        document.getElementById("category-summary");
 
     if (!container) {
         return;
     }
 
+    if (!expenses || expenses.length === 0) {
 
-    if (
-        !expenses ||
-        expenses.length === 0
-    ) {
-
-        container.innerHTML =
-            `
-            <div class="empty">
-                No category data available yet.
+        container.innerHTML = `
+            <div class="category-empty">
+                No expenses recorded yet.
             </div>
-            `;
+        `;
 
         return;
     }
 
+    const categories = {};
 
-    const categoryTotals = {};
+    expenses.forEach(function(expense) {
 
+        const category =
+            expense.category &&
+            expense.category.trim()
+                ? expense.category.trim()
+                : "Other";
 
-    expenses.forEach(
-        function(expense) {
+        if (!categories[category]) {
 
-            const category =
-                expense.category ||
-                "Other";
-
-
-            const amount =
-                Number(
-                    expense.amount
-                ) || 0;
-
-
-            categoryTotals[category] =
-                (
-                    categoryTotals[category] ||
-                    0
-                ) +
-                amount;
+            categories[category] = {
+                total: 0,
+                count: 0,
+                expenses: []
+            };
 
         }
-    );
 
+        categories[category].total +=
+            Number(expense.amount) || 0;
 
-    const sorted =
-        Object.entries(
-            categoryTotals
-        ).sort(
-            (a, b) =>
-                b[1] - a[1]
-        );
+        categories[category].count += 1;
 
+        categories[category].expenses.push(expense);
 
-    const total =
-        sorted.reduce(
-            function(sum, item) {
+    });
 
-                return (
-                    sum +
-                    item[1]
-                );
+    const categoryIcons = {
 
-            },
-            0
-        );
+        Food: "🍔",
+        Travel: "✈️",
+        Shopping: "🛍️",
+        Bills: "🧾",
+        Entertainment: "🎬",
+        Health: "❤️",
+        Education: "📚",
+        Other: "📦"
 
+    };
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
-
-    sorted.forEach(
-        function(
-            [category, amount]
-        ) {
-
-            const percentage =
-                total > 0
-                    ? (
-                        amount /
-                        total *
-                        100
-                    ).toFixed(1)
-                    : 0;
-
+    Object.entries(categories).forEach(
+        function([category, data]) {
 
             const item =
-                document.createElement(
-                    "div"
-                );
-
+                document.createElement("div");
 
             item.className =
-                "category-summary-item";
+                "category-row";
 
+            item.innerHTML = `
 
-            item.innerHTML =
-                `
+                <div class="category-row-left">
 
-                <div class="category-summary-top">
+                    <div class="category-icon">
+                        ${
+                            categoryIcons[category] ||
+                            "📦"
+                        }
+                    </div>
 
-                    <span class="category-name">
-                        ${escapeHtml(
-                            category
-                        )}
-                    </span>
+                    <div class="category-row-info">
 
-                    <span class="category-amount">
-                        ₹${amount.toFixed(2)}
-                    </span>
+                        <div class="category-row-name">
+                            ${escapeHtml(category)}
+                        </div>
 
-                </div>
+                        <div class="category-row-count">
+                            ${data.count}
+                            ${
+                                data.count === 1
+                                    ? "expense"
+                                    : "expenses"
+                            }
+                        </div>
 
-
-                <div class="category-progress">
-
-                    <div
-                        class="category-progress-fill"
-                        style="width:${percentage}%"
-                    ></div>
-
-                </div>
-
-
-                <div class="category-percentage">
-
-                    ${percentage}%
-                    of total spending
+                    </div>
 
                 </div>
 
-                `;
+                <div class="category-row-right">
 
+                    <div class="category-row-amount">
+                        ₹${data.total.toFixed(2)}
+                    </div>
 
-            container.appendChild(
-                item
+                    <div class="category-arrow">
+                        →
+                    </div>
+
+                </div>
+
+            `;
+
+            item.addEventListener(
+                "click",
+                function() {
+
+                    showCategoryExpenses(
+                        category,
+                        data.expenses
+                    );
+
+                }
             );
+
+            container.appendChild(item);
 
         }
     );
@@ -2080,6 +2452,154 @@ function renderCategorySummary(
 
 
 // ========================================================
+// SHOW EXPENSES FOR SELECTED CATEGORY
+// ========================================================
+
+function showCategoryExpenses(
+    category,
+    categoryExpenses
+) {
+
+    const container =
+        document.getElementById(
+            "expensesContainer"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    container.classList.add("category-detail-mode");
+
+    container.innerHTML = `
+
+        <div class="category-detail-header">
+
+            <button
+                class="back-category-btn"
+                onclick="loadExpenses()"
+            >
+                ← Back to Categories
+            </button>
+
+            <div class="selected-category-title">
+
+                <span>
+                    ${
+                        category === "Food"
+                            ? "🍔"
+                            : category === "Travel"
+                            ? "✈️"
+                            : category === "Shopping"
+                            ? "🛍️"
+                            : category === "Bills"
+                            ? "🧾"
+                            : category === "Entertainment"
+                            ? "🎬"
+                            : category === "Health"
+                            ? "❤️"
+                            : category === "Education"
+                            ? "📚"
+                            : "📦"
+                    }
+                </span>
+
+                ${escapeHtml(category)}
+
+            </div>
+
+            <div class="selected-category-total">
+
+                ${categoryExpenses.length}
+                ${
+                    categoryExpenses.length === 1
+                        ? "expense"
+                        : "expenses"
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+    categoryExpenses
+        .slice()
+        .reverse()
+        .forEach(function(expense) {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "category-expense-row";
+
+            div.innerHTML = `
+
+                <div class="category-expense-main">
+
+                    <div class="category-expense-title">
+                        ${escapeHtml(
+                            expense.title || "Untitled"
+                        )}
+                    </div>
+
+                    <div class="category-expense-description">
+                        ${escapeHtml(
+                            expense.description || ""
+                        )}
+                    </div>
+
+                    <div class="category-expense-date">
+                        ${
+                            expense.created_at
+                                ? new Date(
+                                    expense.created_at
+                                  ).toLocaleString()
+                                : ""
+                        }
+                    </div>
+
+                </div>
+
+                <div class="category-expense-amount">
+                    ₹${(
+                        Number(expense.amount) || 0
+                    ).toFixed(2)}
+                </div>
+
+                <div class="category-expense-actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editExpense(${expense.id})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteExpense(${expense.id})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `;
+
+            container.appendChild(div);
+
+        });
+
+    container.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
 // ADD EXPENSE
 // ========================================================
 
