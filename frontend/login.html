@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,25 +12,37 @@
 
     <title>Expense Manager - Login</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+
         body {
+
             font-family: Arial, sans-serif;
+
             background: #f4f6f8;
+
             min-height: 100vh;
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
         }
 
+
         .container {
+
             width: 100%;
+
             max-width: 420px;
 
             background: white;
@@ -38,461 +51,613 @@
 
             border-radius: 10px;
 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow:
+                0 4px 20px
+                rgba(0, 0, 0, 0.1);
+
         }
+
 
         h1 {
+
             text-align: center;
+
             margin-bottom: 10px;
+
             color: #4f46e5;
+
         }
+
 
         .subtitle {
+
             text-align: center;
+
             color: #666;
+
             margin-bottom: 25px;
+
         }
+
 
         .form-group {
+
             margin-bottom: 18px;
+
         }
+
 
         label {
+
             display: block;
+
             margin-bottom: 7px;
+
             font-weight: 600;
+
             color: #333;
+
         }
 
+
         input {
+
             width: 100%;
+
             padding: 12px;
 
             border: 1px solid #ccc;
+
             border-radius: 6px;
 
             font-size: 14px;
+
         }
+
 
         input:focus {
+
             outline: none;
+
             border-color: #4f46e5;
+
         }
 
+
         button {
+
             width: 100%;
+
             padding: 12px;
 
             border: none;
+
             border-radius: 6px;
 
             background: #4f46e5;
+
             color: white;
 
             font-size: 15px;
+
             font-weight: 600;
 
             cursor: pointer;
+
         }
+
 
         button:hover {
+
             background: #4338ca;
+
         }
+
 
         button:disabled {
+
             background: #999;
+
             cursor: not-allowed;
+
         }
+
 
         #message {
+
             margin-top: 15px;
+
             text-align: center;
+
             line-height: 1.5;
+
         }
+
 
         .error {
+
             color: red;
+
         }
+
 
         .success {
+
             color: green;
+
         }
 
-        .info {
-            color: #4f46e5;
-        }
 
         .register-link {
+
             text-align: center;
+
             margin-top: 20px;
+
             color: #666;
+
         }
 
+
         .register-link a {
+
             color: #4f46e5;
+
             font-weight: 600;
+
             text-decoration: none;
+
         }
+
+
     </style>
+
 </head>
 
 
 <body>
 
-<div class="container">
 
-    <h1>Expense Manager</h1>
-
-    <p class="subtitle">
-        Login to manage your expenses
-    </p>
+    <div class="container">
 
 
-    <form id="loginForm">
+        <h1>
+            Expense Manager
+        </h1>
 
-        <div class="form-group">
 
-            <label for="email">
-                Email
-            </label>
+        <p class="subtitle">
+            Login to manage your expenses
+        </p>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                required
+
+        <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                id="loginButton"
             >
+                Login
+            </button>
+
+
+        </form>
+
+
+        <!-- MESSAGE -->
+
+        <div id="message"></div>
+
+
+        <!-- REGISTER LINK -->
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="index.html">
+                Register
+            </a>
 
         </div>
 
-
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                required
-            >
-
-        </div>
-
-
-        <button
-            type="submit"
-            id="loginButton"
-        >
-            Login
-        </button>
-
-    </form>
-
-
-    <div id="message"></div>
-
-
-    <div class="register-link">
-
-        Don't have an account?
-
-        <a href="index.html">
-            Register
-        </a>
 
     </div>
 
-</div>
+
+    <script>
 
 
-<script>
+        // ==========================================
+        // LOCAL BACKEND
+        // ==========================================
 
-const API_URL =
+        const API_URL =
     "https://expense-manager-api-lpdf.onrender.com";
 
+        // ==========================================
+        // GET ELEMENTS
+        // ==========================================
 
-const loginForm =
-    document.getElementById("loginForm");
-
-const loginButton =
-    document.getElementById("loginButton");
-
-const message =
-    document.getElementById("message");
-
-
-function wait(ms) {
-
-    return new Promise(resolve => {
-        setTimeout(resolve, ms);
-    });
-
-}
+        const loginForm =
+            document.getElementById(
+                "loginForm"
+            );
 
 
-async function wakeBackend() {
-
-    try {
-
-        await fetch(
-            `${API_URL}/health`,
-            {
-                method: "GET",
-                cache: "no-store"
-            }
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.log(
-            "Backend is waking up..."
-        );
-
-        return false;
-    }
-}
+        const loginButton =
+            document.getElementById(
+                "loginButton"
+            );
 
 
-async function loginRequest(
-    formData,
-    retries = 3
-) {
-
-    let lastError;
+        const message =
+            document.getElementById(
+                "message"
+            );
 
 
-    for (
-        let attempt = 1;
-        attempt <= retries;
-        attempt++
-    ) {
+        // ==========================================
+        // LOGIN
+        // ==========================================
 
-        try {
+        loginForm.addEventListener(
+            "submit",
 
-            const response =
-                await fetch(
-                    `${API_URL}/token`,
-                    {
-                        method: "POST",
+            async function(event) {
 
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded",
+                event.preventDefault();
 
-                            "Accept":
-                                "application/json"
-                        },
 
-                        body: formData,
+                // Get email
 
-                        cache: "no-store"
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                // Get password
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                // Clear previous message
+
+                message.textContent = "";
+
+                message.className = "";
+
+
+                // Disable button
+
+                loginButton.disabled = true;
+
+                loginButton.textContent =
+                    "Logging in...";
+
+
+                try {
+
+
+                    // ==================================
+                    // CREATE FORM DATA
+                    // ==================================
+
+                    const formData =
+                        new URLSearchParams();
+
+
+                    /*
+                     * FastAPI OAuth2 expects
+                     * the field name "username".
+                     *
+                     * We use email for login.
+                     */
+
+                    formData.append(
+                        "username",
+                        email
+                    );
+
+
+                    formData.append(
+                        "password",
+                        password
+                    );
+
+
+                    // ==================================
+                    // SEND LOGIN REQUEST
+                    // ==================================
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/token`,
+                            {
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded",
+
+                                    "Accept":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    formData
+
+                            }
+                        );
+
+
+                    // ==================================
+                    // READ RESPONSE
+                    // ==================================
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Login status:",
+                        response.status
+                    );
+
+
+                    console.log(
+                        "Login response:",
+                        data
+                    );
+
+
+                    // ==================================
+                    // SUCCESS
+                    // ==================================
+
+                    if (response.ok) {
+
+
+                        /*
+                         * Save JWT token
+                         */
+
+                        localStorage.setItem(
+                            "access_token",
+                            data.access_token
+                        );
+
+
+                        /*
+                         * IMPORTANT:
+                         *
+                         * Save the actual user
+                         * returned by the backend.
+                         *
+                         * This contains:
+                         * username
+                         * email
+                         * id
+                         */
+
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(
+                                data.user
+                            )
+                        );
+
+
+                        /*
+                         * Show success
+                         */
+
+                        message.textContent =
+                            "Login successful!";
+
+                        message.className =
+                            "success";
+
+
+                        /*
+                         * Go to dashboard
+                         */
+
+                        setTimeout(
+                            function() {
+
+                                window.location.href =
+                                    "dashboard.html";
+
+                            },
+                            500
+                        );
+
+
+                        return;
+
                     }
-                );
 
 
-            return response;
+                    // ==================================
+                    // UNAUTHORIZED
+                    // ==================================
 
-        } catch (error) {
+                    if (
+                        response.status === 401
+                    ) {
 
-            lastError = error;
+                        message.textContent =
+                            data.detail ||
+                            "Invalid email or password.";
 
+                        message.className =
+                            "error";
 
-            if (attempt < retries) {
+                        return;
 
-                message.textContent =
-                    `Connecting to server... ${attempt}/${retries}`;
-
-                message.className = "info";
-
-
-                await wait(5000);
-            }
-        }
-    }
-
-
-    throw lastError;
-}
+                    }
 
 
-loginForm.addEventListener(
-    "submit",
-    async function(event) {
+                    // ==================================
+                    // VALIDATION ERROR
+                    // ==================================
 
-        event.preventDefault();
-
-
-        const email =
-            document
-                .getElementById("email")
-                .value
-                .trim();
+                    if (
+                        response.status === 422
+                    ) {
 
 
-        const password =
-            document
-                .getElementById("password")
-                .value;
+                        if (
+                            Array.isArray(
+                                data.detail
+                            )
+                        ) {
 
 
-        message.textContent =
-            "Connecting to server...";
+                            const errors =
+                                data.detail.map(
+                                    function(error) {
 
-        message.className =
-            "info";
-
-
-        loginButton.disabled = true;
-
-        loginButton.textContent =
-            "Logging in...";
-
-
-        try {
-
-            // Wake Render backend
-            await wakeBackend();
-
-            await wait(1500);
+                                        const location =
+                                            error.loc
+                                                ? error.loc.join(
+                                                    " → "
+                                                )
+                                                : "field";
 
 
-            const formData =
-                new URLSearchParams();
+                                        return (
+                                            location +
+                                            ": " +
+                                            error.msg
+                                        );
+
+                                    }
+                                );
 
 
-            // FastAPI OAuth2PasswordRequestForm
-            formData.append(
-                "username",
-                email
-            );
+                            message.innerHTML =
+                                errors.join("<br>");
 
 
-            formData.append(
-                "password",
-                password
-            );
+                        }
+
+                        else {
+
+                            message.textContent =
+                                "Invalid login request.";
+
+                        }
 
 
-            const response =
-                await loginRequest(
-                    formData,
-                    3
-                );
+                        message.className =
+                            "error";
 
 
-            const data =
-                await response.json();
+                        return;
+
+                    }
 
 
-            if (response.ok) {
+                    // ==================================
+                    // OTHER ERROR
+                    // ==================================
 
-                localStorage.setItem(
-                    "access_token",
-                    data.access_token
-                );
+                    message.textContent =
+                        data.detail ||
+                        "Login failed.";
 
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify({
-                        username: email
-                    })
-                );
+                    message.className =
+                        "error";
 
 
-                message.textContent =
-                    "Login successful!";
+                }
 
 
-                message.className =
-                    "success";
+                catch (error) {
 
 
-                setTimeout(
-                    function() {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    },
-                    500
-                );
+                    console.error(
+                        "Login error:",
+                        error
+                    );
 
 
-                return;
+                    message.textContent =
+                        "Unable to connect to the backend.";
+
+                    message.className =
+                        "error";
+
+                }
+
+
+                // ==================================
+                // ENABLE BUTTON AGAIN
+                // ==================================
+
+                loginButton.disabled =
+                    false;
+
+                loginButton.textContent =
+                    "Login";
+
+
             }
 
-
-            if (response.status === 401) {
-
-                message.textContent =
-                    data.detail ||
-                    "Invalid email or password.";
-
-                message.className =
-                    "error";
-
-                return;
-            }
+        );
 
 
-            if (response.status === 422) {
+    </script>
 
-                message.textContent =
-                    "Please enter a valid email and password.";
-
-                message.className =
-                    "error";
-
-                return;
-            }
-
-
-            message.textContent =
-                data.detail ||
-                "Login failed.";
-
-            message.className =
-                "error";
-
-        }
-
-
-        catch (error) {
-
-            console.error(
-                "Login error:",
-                error
-            );
-
-
-            message.textContent =
-                "Unable to connect to server. Please try again.";
-
-            message.className =
-                "error";
-
-        }
-
-
-        finally {
-
-            loginButton.disabled =
-                false;
-
-            loginButton.textContent =
-                "Login";
-        }
-
-    }
-);
-
-</script>
 
 </body>
+
 </html>

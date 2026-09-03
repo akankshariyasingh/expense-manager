@@ -3,259 +3,950 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Expense Manager - Dashboard</title>
+<title>Expense Manager</title>
 
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            min-height: 100vh;
-        }
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
 
-        /* ================= HEADER ================= */
+    background: #f5f7fb;
+    color: #182033;
+    min-height: 100vh;
+}
 
-        header {
-            background: white;
-            padding: 20px 40px;
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+/* ================= HEADER ================= */
 
-            box-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.08);
-        }
+header {
+    background: #ffffff;
+    border-bottom: 1px solid #e7ebf2;
 
-        header h1 {
-            color: #4f46e5;
-        }
+    padding: 17px 5%;
 
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-        #usernameDisplay {
-            font-weight: bold;
-        }
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-        .logout-btn {
-            padding: 8px 15px;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-            border: none;
-            border-radius: 6px;
+.logo-icon {
+    width: 38px;
+    height: 38px;
 
-            background: #ef4444;
-            color: white;
+    border-radius: 11px;
 
-            cursor: pointer;
-        }
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #6366f1
+    );
 
-        .logout-btn:hover {
-            background: #dc2626;
-        }
+    color: white;
 
-        /* ================= CONTAINER ================= */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .container {
-            max-width: 1000px;
+    font-size: 19px;
 
-            margin: 40px auto;
+    box-shadow:
+        0 5px 14px rgba(79, 70, 229, 0.22);
+}
 
-            padding: 0 20px;
-        }
+.logo-text {
+    font-size: 20px;
+    font-weight: 800;
+}
 
-        /* ================= CARD ================= */
+.logo-text span {
+    color: #4f46e5;
+}
 
-        .card {
-            background: white;
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-            padding: 25px;
+.user-avatar {
+    width: 35px;
+    height: 35px;
 
-            border-radius: 10px;
+    border-radius: 50%;
 
-            margin-bottom: 25px;
+    background: #eef2ff;
+    color: #4f46e5;
 
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, 0.08);
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .card h2 {
-            margin-bottom: 20px;
-        }
+    font-size: 14px;
+    font-weight: 750;
+}
 
-        /* ================= FORM ================= */
+#usernameDisplay {
+    font-size: 14px;
+    font-weight: 650;
+    color: #4b5563;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.logout-btn {
+    background: #ffffff;
+    color: #4b5563;
 
-        label {
-            display: block;
+    border: 1px solid #e1e5ec;
 
-            margin-bottom: 6px;
+    padding: 9px 15px;
 
-            font-weight: 600;
-        }
+    border-radius: 9px;
 
-        input,
-        textarea {
+    font-size: 13px;
+}
 
-            width: 100%;
+.logout-btn:hover {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
 
-            padding: 11px;
 
-            border: 1px solid #ccc;
+/* ================= MAIN ================= */
 
-            border-radius: 6px;
+.container {
+    width: min(1100px, 92%);
+    margin: 32px auto 70px;
+}
 
-            font-size: 14px;
-        }
+.welcome {
+    margin-bottom: 25px;
+}
 
-        input:focus,
-        textarea:focus {
+.welcome h2 {
+    font-size: 27px;
+    color: #172033;
+    margin-bottom: 6px;
+}
 
-            outline: none;
+.welcome p {
+    color: #7b8495;
+    font-size: 14px;
+}
 
-            border-color: #4f46e5;
-        }
 
-        textarea {
+/* ================= OVERVIEW ================= */
 
-            min-height: 80px;
+.overview-grid {
+    display: grid;
 
-            resize: vertical;
-        }
+    grid-template-columns:
+        repeat(3, 1fr);
 
-        /* ================= BUTTON ================= */
+    gap: 16px;
 
-        button {
+    margin-bottom: 24px;
+}
 
-            padding: 11px 18px;
+.overview-card {
+    background: #ffffff;
 
-            border: none;
+    border: 1px solid #e7ebf1;
 
-            border-radius: 6px;
+    border-radius: 15px;
 
-            background: #4f46e5;
+    padding: 21px;
 
-            color: white;
+    box-shadow:
+        0 7px 22px rgba(31, 41, 55, 0.04);
+}
 
-            cursor: pointer;
+.overview-label {
+    color: #7b8495;
+    font-size: 12px;
+    font-weight: 650;
+    margin-bottom: 9px;
+}
 
-            font-weight: 600;
-        }
+.overview-value {
+    color: #172033;
+    font-size: 25px;
+    font-weight: 800;
+}
 
-        button:hover {
+.overview-icon {
+    float: right;
 
-            background: #4338ca;
-        }
+    width: 38px;
+    height: 38px;
 
-        /* ================= MESSAGE ================= */
+    border-radius: 10px;
 
-        #message {
+    background: #eef2ff;
+    color: #4f46e5;
 
-            margin-top: 15px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .success {
+    font-size: 17px;
+}
 
-            color: green;
-        }
 
-        .error {
+/* ================= CARD ================= */
 
-            color: red;
-        }
+.card {
+    background: #ffffff;
 
-        /* ================= EXPENSE ================= */
+    border: 1px solid #e7ebf1;
 
-        .expense-item {
+    border-radius: 16px;
 
-            border: 1px solid #ddd;
+    padding: 25px;
 
-            border-radius: 8px;
+    margin-bottom: 22px;
 
-            padding: 18px;
+    box-shadow:
+        0 7px 25px rgba(31, 41, 55, 0.045);
+}
 
-            margin-bottom: 15px;
-        }
+.card-header {
+    margin-bottom: 21px;
+}
 
-        .expense-item h3 {
+.card-header h2 {
+    color: #182033;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
 
-            margin-bottom: 8px;
-        }
+.card-header p {
+    color: #8a93a3;
+    font-size: 12px;
+}
 
-        .expense-amount {
 
-            font-size: 20px;
+/* ================= FORM ================= */
 
-            font-weight: bold;
+.form-grid {
+    display: grid;
 
-            margin-bottom: 8px;
-        }
+    grid-template-columns:
+        1fr 1fr;
 
-        .expense-description {
+    gap: 17px;
+}
 
-            color: #666;
+.form-group.full {
+    grid-column: 1 / -1;
+}
 
-            margin-bottom: 10px;
-        }
+label {
+    display: block;
 
-        .expense-actions {
+    margin-bottom: 7px;
 
-            display: flex;
+    color: #374151;
 
-            gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+}
 
-            margin-top: 15px;
-        }
+input,
+select,
+textarea {
+    width: 100%;
 
-        .edit-btn {
+    border: 1px solid #dfe4ec;
 
-            background: #f59e0b;
-        }
+    background: #fafbfd;
 
-        .edit-btn:hover {
+    color: #1f2937;
 
-            background: #d97706;
-        }
+    border-radius: 9px;
 
-        .delete-btn {
+    padding: 12px 13px;
 
-            background: #ef4444;
-        }
+    font-size: 13px;
 
-        .delete-btn:hover {
+    transition: 0.2s;
+}
 
-            background: #dc2626;
-        }
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
 
-        .empty {
+    border-color: #6366f1;
 
-            color: #777;
+    background: #ffffff;
 
-            text-align: center;
+    box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.09);
+}
 
-            padding: 20px;
-        }
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
 
-    </style>
+.primary-btn {
+    margin-top: 19px;
+
+    padding: 12px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #6366f1
+        );
+
+    box-shadow:
+        0 6px 15px rgba(79, 70, 229, 0.20);
+}
+
+.primary-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #4338ca,
+            #4f46e5
+        );
+}
+
+
+/* ================= MESSAGE ================= */
+
+#message {
+    margin-top: 13px;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.success {
+    color: #15803d;
+}
+
+.error {
+    color: #dc2626;
+}
+
+
+/* ================= CATEGORY ================= */
+
+.category-summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 13px;
+}
+
+.category-summary-item {
+    background: #fafbfd;
+
+    border: 1px solid #e8ecf2;
+
+    border-radius: 12px;
+
+    padding: 15px;
+}
+
+.category-summary-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.category-name {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.category-amount {
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.category-progress {
+    height: 7px;
+
+    background: #e8ebf0;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.category-progress-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4f46e5,
+            #818cf8
+        );
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+.category-percentage {
+    margin-top: 7px;
+
+    color: #98a1af;
+
+    font-size: 10px;
+}
+
+
+/* ================= EXPENSES ================= */
+
+.expense-item {
+    border: 1px solid #e7ebf1;
+
+    background: #ffffff;
+
+    border-radius: 13px;
+
+    padding: 17px;
+
+    margin-bottom: 12px;
+
+    transition: 0.2s;
+}
+
+.expense-item:hover {
+    border-color: #d8ddef;
+
+    box-shadow:
+        0 6px 18px rgba(31, 41, 55, 0.045);
+
+    transform: translateY(-1px);
+}
+
+.expense-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+}
+
+.expense-title {
+    color: #202b40;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+    margin-bottom: 6px;
+}
+
+.expense-amount {
+    color: #111827;
+
+    font-size: 19px;
+
+    font-weight: 800;
+}
+
+.category-badge {
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    white-space: nowrap;
+}
+
+.expense-description {
+    color: #7d8797;
+
+    font-size: 12px;
+
+    margin-top: 9px;
+
+    line-height: 1.5;
+}
+
+.expense-date {
+    display: block;
+
+    color: #9ba3b0;
+
+    font-size: 10px;
+
+    margin-top: 9px;
+}
+
+.expense-actions {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 13px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px 13px;
+
+    font-size: 11px;
+}
+
+.edit-btn {
+    background: #f59e0b;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+.delete-btn {
+    background: #ef4444;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.empty {
+    text-align: center;
+
+    color: #8b95a5;
+
+    padding: 30px 10px;
+
+    font-size: 13px;
+}
+
+
+/* ================= CHATBOT BUTTON ================= */
+
+#chatbot-button {
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4338ca,
+            #6366f1
+        );
+
+    color: white;
+
+    font-size: 25px;
+
+    box-shadow:
+        0 10px 28px rgba(79, 70, 229, 0.30);
+
+    z-index: 1000;
+}
+
+#chatbot-button:hover {
+    transform: translateY(-3px);
+}
+
+
+/* ================= CHATBOT ================= */
+
+#chatbot-window {
+    display: none;
+
+    position: fixed;
+
+    right: 25px;
+    bottom: 95px;
+
+    width: 395px;
+    height: 550px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e6ef;
+
+    border-radius: 19px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 22px 55px rgba(15, 23, 42, 0.18);
+
+    z-index: 999;
+
+    flex-direction: column;
+}
+
+
+/* ================= CHAT HEADER ================= */
+
+#chatbot-header {
+    background:
+        linear-gradient(
+            135deg,
+            #3730a3,
+            #4f46e5
+        );
+
+    color: white;
+
+    padding: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.chatbot-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatbot-avatar {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,0.15);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+.chatbot-name {
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.chatbot-subtitle {
+    font-size: 10px;
+
+    opacity: 0.78;
+
+    margin-top: 2px;
+}
+
+.chatbot-online {
+    width: 7px;
+    height: 7px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    background: #86efac;
+
+    margin-right: 4px;
+}
+
+#chatbot-close {
+    background: transparent;
+
+    padding: 0;
+
+    width: 30px;
+    height: 30px;
+
+    font-size: 23px;
+}
+
+#chatbot-close:hover {
+    background: rgba(255,255,255,0.12);
+
+    transform: none;
+}
+
+
+/* ================= CHAT MESSAGES ================= */
+
+#chatbot-messages {
+    flex: 1;
+
+    padding: 17px;
+
+    overflow-y: auto;
+
+    background: #f7f8fb;
+}
+
+.chat-message {
+    max-width: 86%;
+
+    padding: 11px 13px;
+
+    margin-bottom: 11px;
+
+    border-radius: 13px;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+}
+
+.user-message {
+    margin-left: auto;
+
+    background: #4f46e5;
+
+    color: white;
+
+    border-bottom-right-radius: 4px;
+}
+
+.bot-message {
+    background: white;
+
+    color: #30394b;
+
+    border: 1px solid #e3e7ee;
+
+    border-bottom-left-radius: 4px;
+}
+
+
+/* ================= CHAT SUGGESTIONS ================= */
+
+.chat-suggestions {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 5px;
+
+    margin-bottom: 13px;
+}
+
+.chat-suggestion {
+    background: #ffffff;
+
+    color: #4f46e5;
+
+    border: 1px solid #dfe4ff;
+
+    border-radius: 20px;
+
+    padding: 7px 10px;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.chat-suggestion:hover {
+    background: #eef2ff;
+
+    transform: none;
+}
+
+
+/* ================= CHAT INPUT ================= */
+
+#chatbot-input-area {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 11px;
+
+    background: white;
+
+    border-top: 1px solid #e4e8ef;
+}
+
+#chatbot-input {
+    flex: 1;
+
+    min-width: 0;
+
+    margin: 0;
+}
+
+#chatbot-voice {
+    width: 43px;
+    min-width: 43px;
+
+    height: 43px;
+
+    padding: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    border: 1px solid #dfe4ff;
+
+    font-size: 17px;
+}
+
+#chatbot-voice:hover {
+    background: #e0e7ff;
+
+    transform: none;
+}
+
+#chatbot-voice.listening {
+    background: #ef4444;
+
+    color: white;
+
+    border-color: #ef4444;
+
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(239,68,68,0.35);
+    }
+
+    70% {
+        box-shadow:
+            0 0 0 8px rgba(239,68,68,0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 0 rgba(239,68,68,0);
+    }
+
+}
+
+#chatbot-send {
+    padding: 11px 14px;
+
+    white-space: nowrap;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 750px) {
+
+    header {
+        padding: 14px 4%;
+    }
+
+    .logo-text {
+        font-size: 17px;
+    }
+
+    #usernameDisplay {
+        display: none;
+    }
+
+    .container {
+        width: 92%;
+        margin-top: 24px;
+    }
+
+    .welcome h2 {
+        font-size: 23px;
+    }
+
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #chatbot-window {
+        right: 10px;
+        bottom: 85px;
+
+        width: calc(100% - 20px);
+
+        height: 70vh;
+    }
+
+    #chatbot-button {
+        right: 15px;
+        bottom: 15px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -263,23 +954,35 @@
 <body>
 
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
-    <h1>
-        Expense Manager
-    </h1>
+    <div class="logo">
+
+        <div class="logo-icon">
+            ₹
+        </div>
+
+        <div class="logo-text">
+            Expense <span>Manager</span>
+        </div>
+
+    </div>
 
 
     <div class="user-section">
 
+        <div
+            class="user-avatar"
+            id="userAvatar"
+        >
+            U
+        </div>
+
         <span id="usernameDisplay">
             User
         </span>
-
 
         <button
             class="logout-btn"
@@ -293,81 +996,229 @@
 </header>
 
 
-<!-- =====================================================
-     MAIN CONTAINER
-===================================================== -->
+<!-- ================= MAIN ================= -->
 
 <div class="container">
 
 
-    <!-- =================================================
-         ADD EXPENSE
-    ================================================== -->
+    <div class="welcome">
+
+        <h2 id="welcomeMessage">
+            Hi, there! 👋
+        </h2>
+
+        <p>
+            Let's make your spending easier to understand.
+        </p>
+
+    </div>
+
+
+    <!-- ================= OVERVIEW ================= -->
+
+    <div class="overview-grid">
+
+
+        <div class="overview-card">
+
+            <div class="overview-icon">
+                ₹
+            </div>
+
+            <div class="overview-label">
+                TOTAL SPENDING
+            </div>
+
+            <div
+                class="overview-value"
+                id="totalSpending"
+            >
+                ₹0.00
+            </div>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="overview-icon">
+                #
+            </div>
+
+            <div class="overview-label">
+                TOTAL EXPENSES
+            </div>
+
+            <div
+                class="overview-value"
+                id="expenseCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <div class="overview-icon">
+                ★
+            </div>
+
+            <div class="overview-label">
+                TOP CATEGORY
+            </div>
+
+            <div
+                class="overview-value"
+                id="topCategory"
+            >
+                —
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= ADD EXPENSE ================= -->
 
     <div class="card">
 
-        <h2>
-            Add Expense
-        </h2>
+        <div class="card-header">
+
+            <h2>
+                Add a new expense
+            </h2>
+
+            <p>
+                Record your spending and keep your finances organized.
+            </p>
+
+        </div>
 
 
         <form id="expenseForm">
 
 
-            <div class="form-group">
-
-                <label for="title">
-                    Title
-                </label>
+            <div class="form-grid">
 
 
-                <input
-                    type="text"
-                    id="title"
-                    placeholder="e.g. Lunch"
-                    required
-                >
+                <div class="form-group">
+
+                    <label for="title">
+                        Expense title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="e.g. Lunch"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="amount">
+                        Amount (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="amount"
+                        placeholder="e.g. 250"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                            selected
+                        >
+                            Select a category
+                        </option>
+
+                        <option value="Food">
+                            🍔 Food
+                        </option>
+
+                        <option value="Travel">
+                            ✈️ Travel
+                        </option>
+
+                        <option value="Shopping">
+                            🛍️ Shopping
+                        </option>
+
+                        <option value="Bills">
+                            🧾 Bills
+                        </option>
+
+                        <option value="Entertainment">
+                            🎬 Entertainment
+                        </option>
+
+                        <option value="Health">
+                            ❤️ Health
+                        </option>
+
+                        <option value="Education">
+                            📚 Education
+                        </option>
+
+                        <option value="Other">
+                            📦 Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <input
+                        type="text"
+                        id="description"
+                        placeholder="e.g. Lunch at college"
+                        required
+                    >
+
+                </div>
+
 
             </div>
 
 
-            <div class="form-group">
-
-                <label for="amount">
-                    Amount
-                </label>
-
-
-                <input
-                    type="number"
-                    id="amount"
-                    placeholder="e.g. 250"
-                    min="0"
-                    step="0.01"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="description">
-                    Description
-                </label>
-
-
-                <textarea
-                    id="description"
-                    placeholder="e.g. Lunch at college"
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <button type="submit">
-                Add Expense
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                + Add Expense
             </button>
 
 
@@ -379,15 +1230,52 @@
     </div>
 
 
-    <!-- =================================================
-         MY EXPENSES
-    ================================================== -->
+    <!-- ================= CATEGORY SUMMARY ================= -->
 
     <div class="card">
 
-        <h2>
-            My Expenses
-        </h2>
+        <div class="card-header">
+
+            <h2>
+                Spending by Category
+            </h2>
+
+            <p>
+                Understand where most of your money is going.
+            </p>
+
+        </div>
+
+
+        <div
+            id="category-summary"
+            class="category-summary-grid"
+        >
+
+            <div class="empty">
+                Loading category summary...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RECENT EXPENSES ================= -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Recent Expenses
+            </h2>
+
+            <p>
+                Your latest recorded transactions.
+            </p>
+
+        </div>
 
 
         <div id="expensesContainer">
@@ -404,11 +1292,153 @@
 </div>
 
 
+<!-- ================= CHATBOT BUTTON ================= -->
+
+<button
+    id="chatbot-button"
+    onclick="toggleChatbot()"
+    title="Open Expense Assistant"
+>
+    💬
+</button>
+
+
+<!-- ================= CHATBOT ================= -->
+
+<div id="chatbot-window">
+
+
+    <div id="chatbot-header">
+
+        <div class="chatbot-brand">
+
+            <div class="chatbot-avatar">
+                🤖
+            </div>
+
+            <div>
+
+                <div class="chatbot-name">
+                    Expense Assistant
+                </div>
+
+                <div class="chatbot-subtitle">
+
+                    <span class="chatbot-online"></span>
+                    Your personal spending companion
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="chatbot-close"
+            onclick="toggleChatbot()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="chatbot-messages">
+
+
+        <div
+            class="chat-message bot-message"
+            id="chatbot-greeting"
+        >
+            Hi there! 👋
+            <br><br>
+            I'm your <strong>Expense Assistant</strong>.
+            <br>
+            Let's make sense of your spending. 💰
+            <br><br>
+            <strong>What would you like to explore?</strong>
+        </div>
+
+
+        <div class="chat-suggestions">
+
+            <button
+                class="chat-suggestion"
+                onclick="useSuggestion('How much have I spent?')"
+            >
+                💰 Total spent
+            </button>
+
+
+            <button
+                class="chat-suggestion"
+                onclick="useSuggestion('Where am I spending the most?')"
+            >
+                📊 Top category
+            </button>
+
+
+            <button
+                class="chat-suggestion"
+                onclick="useSuggestion('Show my recent expenses.')"
+            >
+                🧾 Recent expenses
+            </button>
+
+
+            <button
+                class="chat-suggestion"
+                onclick="useSuggestion('How much did I spend on food?')"
+            >
+                🍔 Food spending
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <div id="chatbot-input-area">
+
+
+        <input
+            type="text"
+            id="chatbot-input"
+            placeholder="Ask about your spending..."
+        >
+
+
+        <button
+            id="chatbot-voice"
+            type="button"
+            onclick="startVoiceInput()"
+            title="Speak your question"
+        >
+            🎤
+        </button>
+
+
+        <button
+            id="chatbot-send"
+            onclick="sendChatMessage()"
+        >
+            Send
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
 <script>
 
 
 // ========================================================
-// PRODUCTION API URL
+// API
 // ========================================================
 
 const API_URL =
@@ -416,7 +1446,7 @@ const API_URL =
 
 
 // ========================================================
-// GET JWT TOKEN
+// TOKEN
 // ========================================================
 
 const token =
@@ -424,10 +1454,6 @@ const token =
         "access_token"
     );
 
-
-// ========================================================
-// CHECK TOKEN
-// ========================================================
 
 if (!token) {
 
@@ -437,17 +1463,22 @@ if (!token) {
 
     window.location.href =
         "login.html";
+
 }
 
 
 // ========================================================
-// SHOW USERNAME
+// USER
 // ========================================================
 
 const storedUser =
     localStorage.getItem(
         "user"
     );
+
+
+let currentUserName =
+    "there";
 
 
 if (storedUser) {
@@ -460,13 +1491,75 @@ if (storedUser) {
             );
 
 
-        document.getElementById(
-            "usernameDisplay"
-        ).textContent =
-            user.username || "User";
+        /*
+         * IMPORTANT:
+         *
+         * We use username/name only.
+         * We NEVER use the email for
+         * the personalized greeting.
+         */
+
+        currentUserName =
+            user.username ||
+            user.name ||
+            "there";
 
 
-    } catch (error) {
+        document
+            .getElementById(
+                "usernameDisplay"
+            )
+            .textContent =
+                currentUserName;
+
+
+        document
+            .getElementById(
+                "userAvatar"
+            )
+            .textContent =
+                currentUserName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+        document
+            .getElementById(
+                "welcomeMessage"
+            )
+            .textContent =
+                `Hi, ${currentUserName}! 👋`;
+
+
+        document
+            .getElementById(
+                "chatbot-greeting"
+            )
+            .innerHTML =
+                `
+                Hi, ${escapeHtml(
+                    currentUserName
+                )}! 👋
+
+                <br><br>
+
+                I'm your
+                <strong>Expense Assistant</strong>.
+
+                <br>
+
+                Let's make sense of your spending. 💰
+
+                <br><br>
+
+                <strong>
+                    What would you like to explore?
+                </strong>
+                `;
+
+    }
+
+    catch (error) {
 
         console.error(
             "User parsing error:",
@@ -479,7 +1572,7 @@ if (storedUser) {
 
 
 // ========================================================
-// AUTHORIZATION HEADERS
+// AUTH HEADERS
 // ========================================================
 
 function getAuthHeaders() {
@@ -499,7 +1592,8 @@ function getAuthHeaders() {
             "application/json",
 
         "Authorization":
-            "Bearer " + currentToken
+            "Bearer " +
+            currentToken
 
     };
 
@@ -507,7 +1601,7 @@ function getAuthHeaders() {
 
 
 // ========================================================
-// GET ALL EXPENSES
+// LOAD EXPENSES
 // ========================================================
 
 async function loadExpenses() {
@@ -524,12 +1618,9 @@ async function loadExpenses() {
             await fetch(
                 `${API_URL}/expenses/`,
                 {
-
                     method: "GET",
-
                     headers:
                         getAuthHeaders()
-
                 }
             );
 
@@ -538,46 +1629,16 @@ async function loadExpenses() {
             await response.json();
 
 
-        console.log(
-            "Expenses response:",
-            response.status,
-            data
-        );
-
-
-        // ================================
-        // UNAUTHORIZED
-        // ================================
-
         if (
-            response.status === 401
+            response.status ===
+            401
         ) {
 
-            localStorage.removeItem(
-                "access_token"
-            );
-
-            localStorage.removeItem(
-                "user"
-            );
-
-
-            alert(
-                "Your login session has expired. Please login again."
-            );
-
-
-            window.location.href =
-                "login.html";
-
+            logout();
 
             return;
         }
 
-
-        // ================================
-        // OTHER ERROR
-        // ================================
 
         if (!response.ok) {
 
@@ -586,7 +1647,7 @@ async function loadExpenses() {
                 <p class="error">
                     ${
                         data.detail ||
-                        "Unable to load expenses"
+                        "Unable to load expenses."
                     }
                 </p>
                 `;
@@ -595,17 +1656,20 @@ async function loadExpenses() {
         }
 
 
-        // ================================
-        // GET EXPENSE ARRAY
-        // ================================
-
         const expenses =
-            data.data?.expenses || [];
+            data.data?.expenses ||
+            [];
 
 
-        // ================================
-        // NO EXPENSES
-        // ================================
+        updateOverview(
+            expenses
+        );
+
+
+        renderCategorySummary(
+            expenses
+        );
+
 
         if (
             expenses.length === 0
@@ -614,7 +1678,8 @@ async function loadExpenses() {
             container.innerHTML =
                 `
                 <p class="empty">
-                    No expenses found.
+                    No expenses yet.
+                    Add your first expense above.
                 </p>
                 `;
 
@@ -622,104 +1687,107 @@ async function loadExpenses() {
         }
 
 
-        // ================================
-        // CLEAR CONTAINER
-        // ================================
-
         container.innerHTML =
             "";
 
 
-        // ================================
-        // DISPLAY EXPENSES
-        // ================================
+        expenses
+            .slice()
+            .reverse()
+            .forEach(
+                function(expense) {
 
-        expenses.forEach(
-            function(expense) {
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
 
 
-                const div =
-                    document.createElement(
-                        "div"
+                    div.className =
+                        "expense-item";
+
+
+                    div.innerHTML =
+                        `
+
+                        <div class="expense-top">
+
+                            <div>
+
+                                <div class="expense-title">
+                                    ${escapeHtml(
+                                        expense.title
+                                    )}
+                                </div>
+
+                                <div class="expense-amount">
+                                    ₹${Number(
+                                        expense.amount
+                                    ).toFixed(2)}
+                                </div>
+
+                            </div>
+
+
+                            <span class="category-badge">
+                                ${escapeHtml(
+                                    expense.category ||
+                                    "Other"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <div class="expense-description">
+                            ${escapeHtml(
+                                expense.description ||
+                                ""
+                            )}
+                        </div>
+
+
+                        <small class="expense-date">
+
+                            ${new Date(
+                                expense.created_at
+                            ).toLocaleString()}
+
+                        </small>
+
+
+                        <div class="expense-actions">
+
+                            <button
+                                class="edit-btn"
+                                onclick="editExpense(
+                                    ${expense.id}
+                                )"
+                            >
+                                Edit
+                            </button>
+
+
+                            <button
+                                class="delete-btn"
+                                onclick="deleteExpense(
+                                    ${expense.id}
+                                )"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                        `;
+
+
+                    container.appendChild(
+                        div
                     );
 
-
-                div.className =
-                    "expense-item";
-
-
-                div.innerHTML =
-                    `
-                    <h3>
-                        ${escapeHtml(
-                            expense.title
-                        )}
-                    </h3>
-
-
-                    <div class="expense-amount">
-
-                        ₹${expense.amount}
-
-                    </div>
-
-
-                    <div class="expense-description">
-
-                        ${escapeHtml(
-                            expense.description
-                        )}
-
-                    </div>
-
-
-                    <small>
-
-                        ${new Date(
-                            expense.created_at
-                        ).toLocaleString()}
-
-                    </small>
-
-
-                    <div class="expense-actions">
-
-
-                        <button
-                            class="edit-btn"
-                            onclick="editExpense(
-                                ${expense.id}
-                            )"
-                        >
-
-                            Edit
-
-                        </button>
-
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteExpense(
-                                ${expense.id}
-                            )"
-                        >
-
-                            Delete
-
-                        </button>
-
-
-                    </div>
-
-                    `;
-
-
-                container.appendChild(
-                    div
-                );
-
-            }
-        );
+                }
+            );
 
     }
 
@@ -735,13 +1803,263 @@ async function loadExpenses() {
         container.innerHTML =
             `
             <p class="error">
-
                 Unable to connect to the backend.
-
             </p>
             `;
 
     }
+
+}
+
+
+// ========================================================
+// OVERVIEW
+// ========================================================
+
+function updateOverview(
+    expenses
+) {
+
+    const total =
+        expenses.reduce(
+            function(sum, expense) {
+
+                return (
+                    sum +
+                    Number(
+                        expense.amount
+                    )
+                );
+
+            },
+            0
+        );
+
+
+    document
+        .getElementById(
+            "totalSpending"
+        )
+        .textContent =
+            `₹${total.toFixed(2)}`;
+
+
+    document
+        .getElementById(
+            "expenseCount"
+        )
+        .textContent =
+            expenses.length;
+
+
+    const categories = {};
+
+
+    expenses.forEach(
+        function(expense) {
+
+            const category =
+                expense.category ||
+                "Other";
+
+
+            categories[category] =
+                (
+                    categories[category] ||
+                    0
+                ) +
+                Number(
+                    expense.amount
+                );
+
+        }
+    );
+
+
+    const sorted =
+        Object.entries(
+            categories
+        ).sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
+
+
+    const top =
+        sorted.length
+            ? sorted[0][0]
+            : "—";
+
+
+    document
+        .getElementById(
+            "topCategory"
+        )
+        .textContent =
+            top;
+
+}
+
+
+// ========================================================
+// CATEGORY SUMMARY
+// ========================================================
+
+function renderCategorySummary(
+    expenses
+) {
+
+    const container =
+        document.getElementById(
+            "category-summary"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (
+        !expenses ||
+        expenses.length === 0
+    ) {
+
+        container.innerHTML =
+            `
+            <div class="empty">
+                No category data available yet.
+            </div>
+            `;
+
+        return;
+    }
+
+
+    const categoryTotals = {};
+
+
+    expenses.forEach(
+        function(expense) {
+
+            const category =
+                expense.category ||
+                "Other";
+
+
+            const amount =
+                Number(
+                    expense.amount
+                ) || 0;
+
+
+            categoryTotals[category] =
+                (
+                    categoryTotals[category] ||
+                    0
+                ) +
+                amount;
+
+        }
+    );
+
+
+    const sorted =
+        Object.entries(
+            categoryTotals
+        ).sort(
+            (a, b) =>
+                b[1] - a[1]
+        );
+
+
+    const total =
+        sorted.reduce(
+            function(sum, item) {
+
+                return (
+                    sum +
+                    item[1]
+                );
+
+            },
+            0
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    sorted.forEach(
+        function(
+            [category, amount]
+        ) {
+
+            const percentage =
+                total > 0
+                    ? (
+                        amount /
+                        total *
+                        100
+                    ).toFixed(1)
+                    : 0;
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "category-summary-item";
+
+
+            item.innerHTML =
+                `
+
+                <div class="category-summary-top">
+
+                    <span class="category-name">
+                        ${escapeHtml(
+                            category
+                        )}
+                    </span>
+
+                    <span class="category-amount">
+                        ₹${amount.toFixed(2)}
+                    </span>
+
+                </div>
+
+
+                <div class="category-progress">
+
+                    <div
+                        class="category-progress-fill"
+                        style="width:${percentage}%"
+                    ></div>
+
+                </div>
+
+
+                <div class="category-percentage">
+
+                    ${percentage}%
+                    of total spending
+
+                </div>
+
+                `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
 
 }
 
@@ -757,7 +2075,6 @@ document
     .addEventListener(
         "submit",
         async function(event) {
-
 
             event.preventDefault();
 
@@ -790,6 +2107,14 @@ document
                     .trim();
 
 
+            const category =
+                document
+                    .getElementById(
+                        "category"
+                    )
+                    .value;
+
+
             const message =
                 document.getElementById(
                     "message"
@@ -803,7 +2128,8 @@ document
                         `${API_URL}/expenses/`,
                         {
 
-                            method: "POST",
+                            method:
+                                "POST",
 
                             headers:
                                 getAuthHeaders(),
@@ -820,6 +2146,9 @@ document
                                     description:
                                         description,
 
+                                    category:
+                                        category,
+
                                     show:
                                         true
 
@@ -833,15 +2162,9 @@ document
                     await response.json();
 
 
-                console.log(
-                    "Create expense:",
-                    response.status,
-                    data
-                );
-
-
                 if (
-                    response.status === 401
+                    response.status ===
+                    401
                 ) {
 
                     logout();
@@ -854,12 +2177,10 @@ document
 
                     message.textContent =
                         data.detail ||
-                        "Failed to create expense";
-
+                        "Failed to create expense.";
 
                     message.className =
                         "error";
-
 
                     return;
                 }
@@ -867,7 +2188,6 @@ document
 
                 message.textContent =
                     "Expense added successfully!";
-
 
                 message.className =
                     "success";
@@ -896,7 +2216,6 @@ document
                 message.textContent =
                     "Unable to connect to the backend.";
 
-
                 message.className =
                     "error";
 
@@ -914,20 +2233,15 @@ async function editExpense(
     expenseId
 ) {
 
-
     try {
 
-
-        // ============================================
-        // GET EXISTING EXPENSE
-        // ============================================
-
-        const getResponse =
+        const response =
             await fetch(
                 `${API_URL}/expenses/${expenseId}`,
                 {
 
-                    method: "GET",
+                    method:
+                        "GET",
 
                     headers:
                         getAuthHeaders()
@@ -936,19 +2250,13 @@ async function editExpense(
             );
 
 
-        const getData =
-            await getResponse.json();
-
-
-        console.log(
-            "Get expense:",
-            getResponse.status,
-            getData
-        );
+        const data =
+            await response.json();
 
 
         if (
-            getResponse.status === 401
+            response.status ===
+            401
         ) {
 
             logout();
@@ -957,40 +2265,22 @@ async function editExpense(
         }
 
 
-        if (!getResponse.ok) {
+        if (!response.ok) {
 
             alert(
-                getData.detail ||
-                "Unable to get expense"
+                data.detail ||
+                "Unable to get expense."
             );
 
             return;
         }
 
-
-        // ============================================
-        // GET EXPENSE OBJECT
-        // ============================================
 
         const expense =
-            getData.data?.expense ||
-            getData.expense ||
-            getData.data;
+            data.data?.expense ||
+            data.expense ||
+            data.data;
 
-
-        if (!expense) {
-
-            alert(
-                "Expense data not found."
-            );
-
-            return;
-        }
-
-
-        // ============================================
-        // ASK NEW VALUES
-        // ============================================
 
         const newTitle =
             prompt(
@@ -1002,7 +2292,6 @@ async function editExpense(
         if (
             newTitle === null
         ) {
-
             return;
         }
 
@@ -1017,7 +2306,6 @@ async function editExpense(
         if (
             newAmount === null
         ) {
-
             return;
         }
 
@@ -1025,28 +2313,40 @@ async function editExpense(
         const newDescription =
             prompt(
                 "Enter new description:",
-                expense.description
+                expense.description ||
+                ""
             );
 
 
         if (
             newDescription === null
         ) {
-
             return;
         }
 
 
-        // ============================================
-        // UPDATE EXPENSE
-        // ============================================
+        const newCategory =
+            prompt(
+                "Enter category:",
+                expense.category ||
+                "Other"
+            );
+
+
+        if (
+            newCategory === null
+        ) {
+            return;
+        }
+
 
         const updateResponse =
             await fetch(
                 `${API_URL}/expenses/${expenseId}`,
                 {
 
-                    method: "PUT",
+                    method:
+                        "PUT",
 
                     headers:
                         getAuthHeaders(),
@@ -1065,6 +2365,10 @@ async function editExpense(
                             description:
                                 newDescription.trim(),
 
+                            category:
+                                newCategory.trim() ||
+                                "Other",
+
                             show:
                                 true
 
@@ -1078,15 +2382,9 @@ async function editExpense(
             await updateResponse.json();
 
 
-        console.log(
-            "Update expense:",
-            updateResponse.status,
-            updateData
-        );
-
-
         if (
-            updateResponse.status === 401
+            updateResponse.status ===
+            401
         ) {
 
             logout();
@@ -1101,7 +2399,7 @@ async function editExpense(
 
             alert(
                 updateData.detail ||
-                "Unable to update expense"
+                "Unable to update expense."
             );
 
             return;
@@ -1112,10 +2410,6 @@ async function editExpense(
             "Expense updated successfully!"
         );
 
-
-        // ============================================
-        // REFRESH EXPENSE LIST
-        // ============================================
 
         await loadExpenses();
 
@@ -1147,28 +2441,26 @@ async function deleteExpense(
     expenseId
 ) {
 
-
-    const confirmDelete =
+    const confirmed =
         confirm(
             "Are you sure you want to delete this expense?"
         );
 
 
-    if (!confirmDelete) {
-
+    if (!confirmed) {
         return;
     }
 
 
     try {
 
-
         const response =
             await fetch(
                 `${API_URL}/expenses/${expenseId}`,
                 {
 
-                    method: "DELETE",
+                    method:
+                        "DELETE",
 
                     headers:
                         getAuthHeaders()
@@ -1181,15 +2473,9 @@ async function deleteExpense(
             await response.json();
 
 
-        console.log(
-            "Delete response:",
-            response.status,
-            data
-        );
-
-
         if (
-            response.status === 401
+            response.status ===
+            401
         ) {
 
             logout();
@@ -1234,6 +2520,472 @@ async function deleteExpense(
     }
 
 }
+
+
+// ========================================================
+// CHATBOT TOGGLE
+// ========================================================
+
+function toggleChatbot() {
+
+    const chatbot =
+        document.getElementById(
+            "chatbot-window"
+        );
+
+
+    if (
+        chatbot.style.display ===
+        "flex"
+    ) {
+
+        chatbot.style.display =
+            "none";
+
+    }
+
+    else {
+
+        chatbot.style.display =
+            "flex";
+
+
+        document
+            .getElementById(
+                "chatbot-input"
+            )
+            .focus();
+
+    }
+
+}
+
+
+// ========================================================
+// CHAT SUGGESTION
+// ========================================================
+
+function useSuggestion(
+    text
+) {
+
+    const input =
+        document.getElementById(
+            "chatbot-input"
+        );
+
+
+    input.value =
+        text;
+
+
+    sendChatMessage();
+
+}
+
+
+// ========================================================
+// ADD CHAT MESSAGE
+// ========================================================
+
+function addChatMessage(
+    message,
+    type
+) {
+
+    const messages =
+        document.getElementById(
+            "chatbot-messages"
+        );
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "chat-message " +
+        (
+            type === "user"
+                ? "user-message"
+                : "bot-message"
+        );
+
+
+    div.textContent =
+        message;
+
+
+    messages.appendChild(
+        div
+    );
+
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+
+// ========================================================
+// SEND CHAT MESSAGE
+// ========================================================
+
+async function sendChatMessage() {
+
+    const input =
+        document.getElementById(
+            "chatbot-input"
+        );
+
+
+    const message =
+        input.value.trim();
+
+
+    if (!message) {
+        return;
+    }
+
+
+    addChatMessage(
+        message,
+        "user"
+    );
+
+
+    input.value =
+        "";
+
+
+    const sendButton =
+        document.getElementById(
+            "chatbot-send"
+        );
+
+
+    sendButton.disabled =
+        true;
+
+
+    sendButton.textContent =
+        "...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/chatbot/chat`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers:
+                        getAuthHeaders(),
+
+                    body:
+                        JSON.stringify({
+
+                            message:
+                                message
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status ===
+            401
+        ) {
+
+            addChatMessage(
+                "Your session has expired. Please login again.",
+                "bot"
+            );
+
+
+            logout();
+
+            return;
+        }
+
+
+        if (!response.ok) {
+
+            addChatMessage(
+                data.detail ||
+                "Sorry, something went wrong.",
+                "bot"
+            );
+
+            return;
+        }
+
+
+        addChatMessage(
+            data.reply ||
+            "I couldn't generate a response.",
+            "bot"
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Chatbot error:",
+            error
+        );
+
+
+        addChatMessage(
+            "Unable to connect to the AI assistant. Please make sure the backend is running.",
+            "bot"
+        );
+
+    }
+
+
+    finally {
+
+        sendButton.disabled =
+            false;
+
+        sendButton.textContent =
+            "Send";
+
+    }
+
+}
+
+
+// ========================================================
+// VOICE INPUT
+// ========================================================
+
+let recognition =
+    null;
+
+let isListening =
+    false;
+
+
+function startVoiceInput() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        addChatMessage(
+            "Voice input is not supported in this browser. Please use Google Chrome.",
+            "bot"
+        );
+
+        return;
+    }
+
+
+    const voiceButton =
+        document.getElementById(
+            "chatbot-voice"
+        );
+
+
+    const input =
+        document.getElementById(
+            "chatbot-input"
+        );
+
+
+    if (isListening) {
+
+        if (recognition) {
+            recognition.stop();
+        }
+
+        return;
+    }
+
+
+    recognition =
+        new SpeechRecognition();
+
+
+    recognition.lang =
+        "en-IN";
+
+
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        true;
+
+
+    recognition.maxAlternatives =
+        1;
+
+
+    isListening =
+        true;
+
+
+    voiceButton.classList.add(
+        "listening"
+    );
+
+
+    voiceButton.textContent =
+        "⏹️";
+
+
+    voiceButton.title =
+        "Stop listening";
+
+
+    recognition.onresult =
+        function(event) {
+
+            let transcript =
+                "";
+
+
+            for (
+                let i =
+                    event.resultIndex;
+
+                i <
+                    event.results.length;
+
+                i++
+            ) {
+
+                transcript +=
+                    event
+                        .results[i][0]
+                        .transcript;
+
+            }
+
+
+            input.value =
+                transcript;
+
+        };
+
+
+    recognition.onerror =
+        function(event) {
+
+            console.error(
+                "Voice recognition error:",
+                event.error
+            );
+
+
+            if (
+                event.error ===
+                "not-allowed"
+            ) {
+
+                addChatMessage(
+                    "Microphone permission was denied. Please allow microphone access in your browser.",
+                    "bot"
+                );
+
+            }
+
+            else if (
+                event.error ===
+                "no-speech"
+            ) {
+
+                addChatMessage(
+                    "I couldn't hear anything. Please try speaking again.",
+                    "bot"
+                );
+
+            }
+
+            else {
+
+                addChatMessage(
+                    "Unable to recognize your voice. Please try again.",
+                    "bot"
+                );
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function() {
+
+            isListening =
+                false;
+
+
+            voiceButton.classList.remove(
+                "listening"
+            );
+
+
+            voiceButton.textContent =
+                "🎤";
+
+
+            voiceButton.title =
+                "Speak your question";
+
+        };
+
+
+    recognition.start();
+
+}
+
+
+// ========================================================
+// ENTER KEY
+// ========================================================
+
+document
+    .getElementById(
+        "chatbot-input"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                event.preventDefault();
+
+                sendChatMessage();
+
+            }
+
+        }
+    );
 
 
 // ========================================================
@@ -1282,7 +3034,7 @@ function escapeHtml(
 
 
 // ========================================================
-// LOAD EXPENSES WHEN PAGE OPENS
+// INITIAL LOAD
 // ========================================================
 
 loadExpenses();
