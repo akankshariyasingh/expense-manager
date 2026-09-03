@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import (
     Boolean,
@@ -11,6 +12,10 @@ from sqlalchemy import (
 )
 
 from app.core.db import Base
+
+
+def india_time():
+    return datetime.now(ZoneInfo("Asia/Kolkata"))
 
 
 class Expense(Base):
@@ -36,9 +41,20 @@ class Expense(Base):
         nullable=False
     )
 
+    amount = Column(
+        Float,
+        nullable=False
+    )
+
     description = Column(
         String(500),
         nullable=True
+    )
+
+    category = Column(
+        String(30),
+        nullable=False,
+        default="Other"
     )
 
     show = Column(
@@ -46,13 +62,8 @@ class Expense(Base):
         default=True
     )
 
-    amount = Column(
-        Float,
-        nullable=False
-    )
-
     created_at = Column(
         DateTime,
         nullable=False,
-        default=datetime.utcnow
+        default=india_time
     )
