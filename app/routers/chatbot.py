@@ -31,8 +31,11 @@ def chat(
     """
     Expense Assistant.
 
-    The chatbot only accesses expenses
-    belonging to the authenticated user.
+    Simple expense questions are answered directly
+    from the user's database.
+
+    Gemini is used only for questions that require
+    general AI-style analysis or advice.
     """
 
     message = request.message.lower().strip()
@@ -48,7 +51,29 @@ def chat(
         .all()
     )
 
+    # ========================================================
+    # GREETING
+    # ========================================================
+
+    if message in [
+        "hello",
+        "hi",
+        "hey",
+        "hello there",
+        "hi there",
+        "hey there"
+    ]:
+        return ChatResponse(
+            reply=(
+                f"Hi {current_user.username}! 👋 "
+                "Ask me anything about your spending."
+            )
+        )
+
+    # ========================================================
     # NO EXPENSES
+    # ========================================================
+
     if not expenses:
         return ChatResponse(
             reply=(
@@ -57,20 +82,34 @@ def chat(
             )
         )
 
-    total = sum(expense.amount for expense in expenses)
+    # ========================================================
+    # TOTAL
+    # ========================================================
 
-    # CATEGORY TOTAL
+    total = sum(
+        float(expense.amount)
+        for expense in expenses
+    )
+
+    # ========================================================
+    # CATEGORY TOTALS
+    # ========================================================
+
     category_totals = {}
 
     for expense in expenses:
+
         category = expense.category or "Other"
 
         category_totals[category] = (
             category_totals.get(category, 0)
-            + expense.amount
+            + float(expense.amount)
         )
 
+    # ========================================================
     # CATEGORY QUESTIONS
+    # ========================================================
+
     category_names = [
         "food",
         "travel",
@@ -85,8 +124,11 @@ def chat(
     requested_category = None
 
     for category in category_names:
+
         if category in message:
+
             requested_category = category.title()
+
             break
 
     if requested_category:
@@ -99,6 +141,7 @@ def chat(
         ]
 
         if not category_expenses:
+
             return ChatResponse(
                 reply=(
                     f"You don't have any "
@@ -107,7 +150,7 @@ def chat(
             )
 
         category_total = sum(
-            expense.amount
+            float(expense.amount)
             for expense in category_expenses
         )
 
@@ -121,7 +164,10 @@ def chat(
             )
         )
 
-    # EXPENSES BY CATEGORY
+    # ========================================================
+    # CATEGORY BREAKDOWN
+    # ========================================================
+
     if any(
         keyword in message
         for keyword in [
@@ -130,9 +176,12 @@ def chat(
             "each category",
             "categories",
             "category breakdown",
-            "category wise"
+            "category wise",
+            "category-wise",
+            "breakdown"
         ]
     ):
+
         sorted_categories = sorted(
             category_totals.items(),
             key=lambda item: item[1],
@@ -141,48 +190,90 @@ def chat(
 
         lines = [
             f"• {category}: ₹{amount:,.2f}"
-            for category, amount in sorted_categories
+            for category, amount
+            in sorted_categories
         ]
 
         return ChatResponse(
             reply="\n".join(lines)
         )
 
-    # SIMPLE TOTAL QUESTIONS
-    if (
-        "total" in message
-        and any(
-            word in message
-            for word in [
-                "expense",
-                "spending",
-                "spent",
-                "amount"
-            ]
-        )
-        and not any(
-            word in message
-            for word in [
-                "analyze",
-                "analysis",
-                "pattern",
-                "patterns",
-                "advice",
-                "behavior",
-                "behaviour",
-                "recommend",
-                "recommendation"
-            ]
-        )
+    # ========================================================
+    # TOP CATEGORY
+    # ========================================================
+
+    if any(
+        phrase in message
+        for phrase in [
+            "top category",
+            "highest category",
+            "largest category",
+            "most spending",
+            "spending the most",
+            "spend the most",
+            "where am i spending the most",
+            "where do i spend the most",
+            "which category"
+        ]
     ):
+
+        top_category = max(
+            category_totals,
+            key=category_totals.get
+        )
+
+        top_amount = category_totals[top_category]
+
+        percentage = (
+            (top_amount / total) * 100
+            if total > 0
+            else 0
+        )
+
         return ChatResponse(
             reply=(
-                f"Your total spending is ₹{total:,.2f} "
+                f"Your top spending category is "
+                f"{top_category} with "
+                f"₹{top_amount:,.2f}, which is "
+                f"{percentage:.1f}% of your total spending."
+            )
+        )
+
+    # ========================================================
+    # TOTAL SPENDING
+    # ========================================================
+
+    if any(
+        phrase in message
+        for phrase in [
+            "how much have i spent",
+            "how much did i spend",
+            "how much have i spend",
+            "how much i spent",
+            "how much i have spent",
+            "total spent",
+            "total spending",
+            "total expense",
+            "total expenses",
+            "total amount",
+            "my total spending",
+            "my total expenses",
+            "how much money have i spent",
+            "how much money did i spend"
+        ]
+    ):
+
+        return ChatResponse(
+            reply=(
+                f"You've spent ₹{total:,.2f} "
                 f"across {len(expenses)} expenses."
             )
         )
 
+    # ========================================================
     # BIGGEST EXPENSE
+    # ========================================================
+
     if any(
         keyword in message
         for keyword in [
@@ -190,9 +281,11 @@ def chat(
             "largest expense",
             "highest expense",
             "most expensive expense",
-            "maximum expense"
+            "maximum expense",
+            "most expensive"
         ]
     ):
+
         biggest = max(
             expenses,
             key=lambda expense: expense.amount
@@ -201,26 +294,33 @@ def chat(
         return ChatResponse(
             reply=(
                 f"Your biggest expense is "
-                f"{biggest.title} — ₹{biggest.amount:,.2f} "
+                f"{biggest.title} — "
+                f"₹{float(biggest.amount):,.2f} "
                 f"({biggest.category or 'Other'})."
             )
         )
 
+    # ========================================================
     # RECENT EXPENSES
+    # ========================================================
+
     if any(
         keyword in message
         for keyword in [
             "recent expenses",
             "latest expenses",
-            "last expenses"
+            "last expenses",
+            "recent spending",
+            "latest spending"
         ]
     ):
+
         recent = expenses[:5]
 
         lines = [
             (
                 f"• {expense.title}: "
-                f"₹{expense.amount:,.2f} "
+                f"₹{float(expense.amount):,.2f} "
                 f"({expense.category or 'Other'})"
             )
             for expense in recent
@@ -230,20 +330,26 @@ def chat(
             reply="\n".join(lines)
         )
 
+    # ========================================================
     # LIST EXPENSES
+    # ========================================================
+
     if any(
         keyword in message
         for keyword in [
             "show expenses",
             "list expenses",
             "my expenses",
-            "all expenses"
+            "all expenses",
+            "show my expenses",
+            "what are my expenses"
         ]
     ):
+
         lines = [
             (
                 f"• {expense.title}: "
-                f"₹{expense.amount:,.2f} "
+                f"₹{float(expense.amount):,.2f} "
                 f"({expense.category or 'Other'})"
             )
             for expense in expenses[:10]
@@ -253,7 +359,10 @@ def chat(
             reply="\n".join(lines)
         )
 
+    # ========================================================
     # TIME OF DAY ANALYSIS
+    # ========================================================
+
     if any(
         keyword in message
         for keyword in [
@@ -267,6 +376,7 @@ def chat(
             "when i spend"
         ]
     ):
+
         time_totals = {
             "Morning": 0,
             "Afternoon": 0,
@@ -275,20 +385,26 @@ def chat(
         }
 
         for expense in expenses:
+
             period = get_time_of_day(
                 expense.created_at.hour
             )
 
-            time_totals[period] += expense.amount
+            time_totals[period] += float(
+                expense.amount
+            )
 
         highest_period = max(
             time_totals,
             key=time_totals.get
         )
 
-        highest_amount = time_totals[highest_period]
+        highest_amount = time_totals[
+            highest_period
+        ]
 
         if highest_amount == 0:
+
             return ChatResponse(
                 reply=(
                     "I don't have enough data "
@@ -304,21 +420,15 @@ def chat(
             )
         )
 
-    # GREETING
-    if message in ["hello", "hi", "hey"]:
-        return ChatResponse(
-            reply=(
-                f"Hi {current_user.username}! 👋 "
-                "Ask me about your spending."
-            )
-        )
-
+    # ========================================================
     # GEMINI FALLBACK
+    # ========================================================
+
     expense_summary = "\n".join(
         [
             (
                 f"- {expense.title}: "
-                f"₹{expense.amount:,.2f} "
+                f"₹{float(expense.amount):,.2f} "
                 f"| Category: "
                 f"{expense.category or 'Other'} "
                 f"| Date/time: "
@@ -351,20 +461,35 @@ RESPONSE STYLE:
 - Do not repeat the question.
 - Do not give unnecessary explanations.
 - Do not give advice unless the user asks for it.
-- Do not add notes or disclaimers unless necessary.
 - Use ₹ for amounts.
 
 DATA RULES:
 - Do not invent expenses, amounts, dates, times, or categories.
 - You may calculate totals, percentages, averages, and comparisons.
-- Use the provided Category values when discussing categories.
-- Use the provided Time of day values when discussing when the user spends.
-- If there is not enough data, simply say:
+- Use the provided Category values.
+- Use the provided Time of day values.
+- If there is not enough data, say:
   "I don't have enough data to determine that yet."
 """
 
-    ai_reply = ask_gemini(prompt)
+    try:
 
-    return ChatResponse(
-        reply=ai_reply.strip()
-    )
+        ai_reply = ask_gemini(prompt)
+
+        return ChatResponse(
+            reply=ai_reply.strip()
+        )
+
+    except Exception:
+
+        # Gemini quota/error fallback.
+        # The application itself continues working.
+
+        return ChatResponse(
+            reply=(
+                "I can answer questions about your "
+                "expenses, totals, categories, and "
+                "recent spending right now. "
+                "Try asking one of those."
+            )
+        )
