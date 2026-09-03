@@ -362,21 +362,22 @@ textarea {
 
 .category-summary-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 13px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .category-summary-item {
-    background: #fafbfd;
-
+    background: #ffffff;
     border: 1px solid #e8ecf2;
-
     border-radius: 12px;
+    padding: 13px;
+    min-width: 0;
+    transition: 0.2s;
+}
 
-    padding: 15px;
+.category-summary-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(31, 41, 55, 0.07);
 }
 
 .category-summary-top {
@@ -434,6 +435,16 @@ textarea {
     font-size: 10px;
 }
 
+
+#expensesContainer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+#expensesContainer .expense-item {
+    margin-bottom: 0;
+}
 
 /* ================= EXPENSES ================= */
 
@@ -927,6 +938,10 @@ textarea {
     }
 
     .category-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #expensesContainer {
         grid-template-columns: 1fr;
     }
 

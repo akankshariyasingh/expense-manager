@@ -20,6 +20,7 @@ def create_expense(
         title=expense_data.title,
         amount=expense_data.amount,
         description=expense_data.description,
+        category=expense_data.category,
         show=expense_data.show,
         user_id=current_user.id
     )
@@ -38,6 +39,7 @@ def create_expense(
                 "title": expense.title,
                 "amount": expense.amount,
                 "description": expense.description,
+                "category": expense.category,
                 "show": expense.show,
                 "created_at": expense.created_at
             }
@@ -144,6 +146,7 @@ def update_expense(
     expense.title = expense_data.title
     expense.amount = expense_data.amount
     expense.description = expense_data.description
+    expense.category = expense_data.category
     expense.show = expense_data.show
 
     db.commit()

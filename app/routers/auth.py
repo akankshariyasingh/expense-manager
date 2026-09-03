@@ -17,7 +17,9 @@ def login_for_access_token(
     db: Session = Depends(get_db)
 ):
     """
-    Login user and return JWT access token.
+    Login user and return JWT access token
+    along with basic user information.
+
     Swagger sends:
     username = user's email
     password = user's password
@@ -59,5 +61,10 @@ def login_for_access_token(
 
     return {
         "access_token": access_token,
-        "token_type": "bearer"
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email
+        }
     }

@@ -23,6 +23,11 @@ class ExpenseRequestDto(BaseModel):
         description="The description of the expense"
     )
 
+    category: str = Field(
+        ...,
+        description="Category of the expense"
+    )
+
     show: bool = Field(
         default=True,
         description="Whether the expense should be shown"
@@ -40,6 +45,8 @@ class ExpenseresponseDto(BaseModel):
     amount: float
 
     description: Optional[str]
+
+    category: str
 
     show: bool
 
